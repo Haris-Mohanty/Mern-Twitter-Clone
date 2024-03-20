@@ -1,10 +1,13 @@
 import React from "react";
+import CreatePost from "./CreatePost";
 
 const Feed = () => {
   return (
-    <div>
-      <h1>Feed</h1>
-    </div>
+    <>
+      <div className="w-[60%]">
+        <CreatePost />
+      </div>
+    </>
   );
 };
 
