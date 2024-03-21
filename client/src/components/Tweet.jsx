@@ -12,7 +12,7 @@ const Tweet = () => {
           <div className="flex p-4">
             <Avatar
               src="https://pbs.twimg.com/profile_images/1676844366659457024/1qiyi4zB_400x400.jpg"
-              size="35"
+              size="40"
               round={true}
             />
             <div className="ml-2 w-full">
