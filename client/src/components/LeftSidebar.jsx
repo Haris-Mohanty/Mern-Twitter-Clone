@@ -10,7 +10,7 @@ import { CiLogout } from "react-icons/ci";
 const LeftSidebar = () => {
   return (
     <>
-      <div className="w-[20%]">
+      <div className="w-[25%]">
         <div>
           <img
             width={"24px"}
