@@ -44,7 +44,7 @@ const LeftSidebar = () => {
             <CiLogout size={"24px"} />
             <h1 className="font-semibold text-lg ml-2">Logout</h1>
           </div>
-          <button className="px-4 py-2 border-none text-md bg-[#109BF0] w-full rounded-full text-white font-bold">
+          <button className="px-4 py-2 border-none text-md bg-[#109BF0] w-[70%] rounded-full text-white font-bold">
             Post
           </button>
         </div>
