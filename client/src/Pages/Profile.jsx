@@ -11,7 +11,7 @@ const Profile = () => {
       <div className="flex justify-between w-[80%] mx-auto">
         <LeftSidebar />
         <div className="w-[50%] border-l border-r border-gray-200">
-          <div>
+          <div className="h-[100%] w-[100%]">
             <div className="flex items-center px-4 py-2">
               <Link
                 to={"/"}
@@ -26,8 +26,9 @@ const Profile = () => {
             </div>
             <img
               src={
-                "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg"
+                "https://png.pngtree.com/thumb_back/fh260/background/20230707/pngtree-bare-wooden-table-surrounded-by-blurred-winter-wonderland-perfect-for-3d-image_3791056.jpg"
               }
+              className="h-[39%] w-[100%]"
               alt="banner"
             />
             <div className="absolute top-56 ml-4 border-4 border-white rounded-full">
@@ -50,8 +51,8 @@ const Profile = () => {
               <p>
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet
                 cumque harum, facere quo tenetur dolores ab neque error
-                perferendis, iure
-                inventore reprehenderit laudantium natus voluptas eveniet.
+                perferendis, iure inventore reprehenderit laudantium natus
+                voluptas eveniet.
               </p>
             </div>
           </div>
