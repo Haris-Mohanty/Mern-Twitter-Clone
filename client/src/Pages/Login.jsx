@@ -9,9 +9,9 @@ const Login = () => {
   return (
     <>
       <div className="w-screen h-screen flex items-center justify-center">
-        <div className="flex items-center justify-evenly w-[80%]">
+        <div className="flex items-center justify-evenly w-[70%]">
           <div>
-            <img src={logo} className="ml-5" width={"40%"} alt="Twitter Logo" />
+            <img src={logo} className="ml-5" width={"50%"} alt="Twitter Logo" />
           </div>
           <div>
             <div className="my-5">
