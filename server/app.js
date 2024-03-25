@@ -1,7 +1,10 @@
 import express from "express";
 import colors from "colors";
 import dotenv from "dotenv";
+import cors from "cors";
+import morgan from "morgan";
 import connectDb from "./database/db.js";
+import userRoutes from "./routes/userRoutes.js";
 
 //Dotenv Configuration
 dotenv.config();
@@ -11,6 +14,14 @@ connectDb();
 
 //Rest Obj
 const app = express();
+
+//Middleware
+app.use(cors());
+app.use(morgan("dev"));
+app.use(express.json());
+
+//Middleware routes
+app.use("/api/v1/user", userRoutes);
 
 //Port & Listen
 const port = process.env.PORT || 8080;
