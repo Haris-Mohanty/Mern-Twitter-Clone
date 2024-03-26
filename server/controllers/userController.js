@@ -32,7 +32,7 @@ export const registerUser = async (req, res) => {
     }
 
     //Check existing email
-    const existingEmail = await userModel.findOne(email);
+    const existingEmail = await userModel.findOne({ email });
     if (existingEmail) {
       return res.status(400).json({
         success: false,
@@ -41,7 +41,7 @@ export const registerUser = async (req, res) => {
     }
 
     //Check existing username
-    const existingUsername = await userModel.findOne(username);
+    const existingUsername = await userModel.findOne({ username });
     if (existingUsername) {
       return res.status(400).json({
         success: false,
