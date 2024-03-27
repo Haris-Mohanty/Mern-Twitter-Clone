@@ -1,6 +1,7 @@
 import userModel from "../models/userModel.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 //********** USER REGISTRATION ********/
 export const registerUser = async (req, res) => {
@@ -80,6 +81,67 @@ export const registerUser = async (req, res) => {
 //********** USER LOGIN ********/
 export const loginUser = async (req, res) => {
   try {
+    const { email, password } = req.body;
+
+    //Validation
+    if (!email || !password) {
+      return res.status(422).json({
+        success: false,
+        message: "Please provide all fields!",
+      });
+    }
+
+    // Validate email format
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a valid email address!",
+      });
+    }
+
+    // Validate password strength (e.g., minimum length)
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters long!",
+      });
+    }
+
+    //Check user exist or not
+    const existingUser = await userModel.findOne({ email });
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: "Invalid Credentials!",
+      });
+    }
+
+    //Compare password
+    const comparePassword = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
+    if (!comparePassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Incorect password, Please check again!",
+      });
+    }
+
+    //Token Generate
+    const token = jwt.sign({ user: existingUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+
+    //Success
+    return res
+      .status(201)
+      .cookie("token", token, { expiresIn: "1d", httpOnly: true })
+      .json({
+        message: "Login Success!",
+        success: true,
+        token,
+      });
   } catch (err) {
     return res.status(500).json({
       success: false,
