@@ -2,7 +2,7 @@ import userModel from "../models/userModel.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
 
-//********** USER REGISTRAYION ********/
+//********** USER REGISTRATION ********/
 export const registerUser = async (req, res) => {
   try {
     const { name, username, email, password } = req.body;
@@ -68,6 +68,18 @@ export const registerUser = async (req, res) => {
       message: "User registerd successfully!",
       user,
     });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};
+
+//********** USER LOGIN ********/
+export const loginUser = async (req, res) => {
+  try {
   } catch (err) {
     return res.status(500).json({
       success: false,
