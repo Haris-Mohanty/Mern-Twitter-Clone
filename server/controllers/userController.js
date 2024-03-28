@@ -129,9 +129,13 @@ export const loginUser = async (req, res) => {
     }
 
     //Token Generate
-    const token = jwt.sign({ userId: existingUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      { userId: existingUser._id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     //Success
     return res
@@ -151,3 +155,18 @@ export const loginUser = async (req, res) => {
   }
 };
 
+//********** USER LOGOUT ********/
+export const logoutUser = (req, res) => {
+  try {
+    return res.cookie("token", "", { expiresIn: new Date(Date.now()) }).json({
+      message: "User Logged out Successfully!",
+      success: true,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};
