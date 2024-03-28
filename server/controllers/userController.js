@@ -129,7 +129,7 @@ export const loginUser = async (req, res) => {
     }
 
     //Token Generate
-    const token = jwt.sign({ user: existingUser._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: existingUser._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
 
@@ -150,3 +150,4 @@ export const loginUser = async (req, res) => {
     });
   }
 };
+
