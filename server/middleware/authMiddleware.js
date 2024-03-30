@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 export const authMiddleware = async (req, res, next) => {
   try {
-    const { token } = res.cookies;
+    const { token } = req.cookies;
     if (!token) {
       return res.status(401).json({
         message: "User not authenticated!",

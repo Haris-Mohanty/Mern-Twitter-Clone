@@ -2,7 +2,7 @@ import tweetModel from "../models/tweetModel.js";
 
 export const createTweet = async (req, res) => {
   try {
-    const { description, id } = req.body;
+    const { description, userId } = req.body;
     //Vaidation
     if (!description || !userId) {
       return res.status(422).json({
@@ -13,7 +13,7 @@ export const createTweet = async (req, res) => {
 
     await tweetModel.create({
       description,
-      userId: id,
+      userId,
     });
     return res.status(201).json({
       message: "Tweet Created Successfully!",
