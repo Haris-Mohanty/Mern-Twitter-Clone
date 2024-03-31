@@ -1,5 +1,6 @@
 import tweetModel from "../models/tweetModel.js";
 
+//************ CREATE TWEET **********/
 export const createTweet = async (req, res) => {
   try {
     const { description, id } = req.body;
@@ -13,12 +14,24 @@ export const createTweet = async (req, res) => {
 
     await tweetModel.create({
       description,
-      userId:id,
+      userId: id,
     });
     return res.status(201).json({
       message: "Tweet Created Successfully!",
       success: true,
     });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Internal Server Error!",
+      success: false,
+      error: err.message,
+    });
+  }
+};
+
+//************ DELETE TWEET **********/
+export const deleteTweet = async (req, res) => {
+  try {
   } catch (err) {
     return res.status(500).json({
       message: "Internal Server Error!",
