@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/create-tweet", authMiddleware, createTweet);
 
 //Delete tweet
-router.delete("/delete-tweet", authMiddleware, deleteTweet);
+router.delete("/delete-tweet/:id", authMiddleware, deleteTweet);
 
 //Export
 export default router;
