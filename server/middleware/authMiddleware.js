@@ -18,7 +18,7 @@ export const authMiddleware = async (req, res, next) => {
           success: false,
         });
       } else {
-        req.userId = decode.id;
+        req.user = decode.userId;
         next();
       }
     });
