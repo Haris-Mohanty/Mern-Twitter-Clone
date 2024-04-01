@@ -63,3 +63,16 @@ export const deleteTweet = async (req, res) => {
     });
   }
 };
+
+//************ LIKE & DISLIKE **********/
+export const likeOrDislike = async (req, res) => {
+  try {
+    const loggedInUserId = req.body.id;
+  } catch (err) {
+    return res.status(500).json({
+      message: "Internal Server Error!",
+      success: false,
+      error: err.message,
+    });
+  }
+};
