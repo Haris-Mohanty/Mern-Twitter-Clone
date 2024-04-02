@@ -1,5 +1,9 @@
 import express from "express";
-import { createTweet, deleteTweet } from "../controllers/tweetController.js";
+import {
+  createTweet,
+  deleteTweet,
+  likeOrDislike,
+} from "../controllers/tweetController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
 //Router Obj
@@ -10,6 +14,9 @@ router.post("/create-tweet", authMiddleware, createTweet);
 
 //Delete tweet
 router.delete("/delete-tweet/:id", authMiddleware, deleteTweet);
+
+//Like & dislike
+router.put("/like/:id", authMiddleware, likeOrDislike);
 
 //Export
 export default router;

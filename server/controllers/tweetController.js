@@ -68,6 +68,28 @@ export const deleteTweet = async (req, res) => {
 export const likeOrDislike = async (req, res) => {
   try {
     const loggedInUserId = req.body.id;
+    const tweetId = req.params.id;
+    const tweet = await tweetModel.findById(tweetId);
+
+    if (tweet.like.includes(loggedInUserId)) {
+      //dislike
+      await tweetModel.findByIdAndUpdate({
+        tweetId,
+        $pull: { like: loggedInUserId },
+      });
+      return res.status(200).json({
+        message: "User disliked your tweet!",
+      });
+    } else {
+      //like
+      await tweetModel.findByIdAndUpdate({
+        tweetId,
+        $push: { like: loggedInUserId },
+      });
+      return res.status(200).json({
+        message: "User disliked your tweet!",
+      });
+    }
   } catch (err) {
     return res.status(500).json({
       message: "Internal Server Error!",
