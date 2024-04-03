@@ -217,10 +217,43 @@ export const getProfileDetails = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         message: "User not found!",
+        success: false,
       });
     }
 
-    return res.status(200).json({ user });
+    return res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};
+
+//************* GET OTHER USERS ***********/
+export const getOtherUsers = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const otherUsers = await userModel
+      .find({ _id: { $ne: id } })
+      .select("-password");
+    if (!otherUsers || otherUsers.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Not find any user!",
+      });
+    }
+
+    //success
+    return res.status(200).json({
+      success: true,
+      totalUsers: otherUsers.length,
+      otherUsers,
+    });
   } catch (err) {
     return res.status(500).json({
       success: false,
