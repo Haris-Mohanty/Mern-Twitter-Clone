@@ -5,6 +5,7 @@ import {
   logoutUser,
   bookmark,
   getProfileDetails,
+  getOtherUsers,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -25,7 +26,10 @@ router.get("/logout", logoutUser);
 router.put("/bookmark/:id", authMiddleware, bookmark);
 
 //Get Profile details
-router.post("/get-profile/:id", authMiddleware, getProfileDetails);
+router.get("/get-profile/:id", authMiddleware, getProfileDetails);
+
+//Get Other users
+router.get("/other-users/:id", authMiddleware, getOtherUsers);
 
 //Export
 export default router;
