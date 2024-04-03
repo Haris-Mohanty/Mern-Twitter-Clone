@@ -208,3 +208,24 @@ export const bookmark = async (req, res) => {
     });
   }
 };
+
+//************* GET PROFILE DETAILS ***********/
+export const getProfileDetails = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await userModel.findById(id).select("-password");
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found!",
+      });
+    }
+
+    return res.status(200).json({ user });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};
