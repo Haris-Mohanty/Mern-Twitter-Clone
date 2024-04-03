@@ -82,7 +82,7 @@ export const likeOrDislike = async (req, res) => {
         $pull: { like: loggedInUserId },
       });
       return res.status(200).json({
-        message: "User liked your tweet!",
+        message: "User disliked your tweet!",
       });
     } else {
       //like
@@ -90,7 +90,7 @@ export const likeOrDislike = async (req, res) => {
         $push: { like: loggedInUserId },
       });
       return res.status(200).json({
-        message: "User disliked your tweet!",
+        message: "User liked your tweet!",
       });
     }
   } catch (err) {
