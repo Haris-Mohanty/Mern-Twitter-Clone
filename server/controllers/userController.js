@@ -262,3 +262,51 @@ export const getOtherUsers = async (req, res) => {
     });
   }
 };
+
+//************* FOLLOW USER ***********/
+export const followUser = async (req, res) => {
+  try {
+    const loggedInUserId = req.body.id;
+    const userToFollowId = req.params.id;
+
+    //Check the user is exist or not
+    const userToFollow = await userModel.findById(userToFollowId);
+    if (!userToFollow) {
+      return res.status(404).json({
+        success: false,
+        message: "User not exists!",
+      });
+    }
+
+    //Check the user is already followed or not
+    const alreadyFollowing = userToFollow.followers.includes(loggedInUserId);
+    if (alreadyFollowing) {
+      return res.status(400).json({
+        success: false,
+        message: `You are already following ${userToFollow.name}!`,
+      });
+    }
+
+    //Add the loggedIn user's Id in the follower' list of follow user (followers)
+    await userModel.findByIdAndUpdate(userToFollowId, {
+      $push: { followers: loggedInUserId },
+    });
+
+    //Add the followed user id in the following list of loggedIn user (following)
+    await userModel.findByIdAndUpdate(loggedInUserId, {
+      $push: { following: userToFollowId },
+    });
+
+    //Success Response
+    return res.status(200).json({
+      success: true,
+      message: `You are now following to ${userToFollow.name}`,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};
