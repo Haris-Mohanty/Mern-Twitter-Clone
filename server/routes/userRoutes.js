@@ -7,6 +7,7 @@ import {
   getProfileDetails,
   getOtherUsers,
   followUser,
+  unFollow,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -34,6 +35,9 @@ router.get("/other-users/:id", authMiddleware, getOtherUsers);
 
 // Follow
 router.post("/follow/:id", authMiddleware, followUser);
+
+// Unfollow
+router.delete("/unfollow/:id", authMiddleware, unFollow);
 
 //Export
 export default router;
