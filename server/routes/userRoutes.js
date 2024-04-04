@@ -6,6 +6,7 @@ import {
   bookmark,
   getProfileDetails,
   getOtherUsers,
+  followUser,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -30,6 +31,9 @@ router.get("/get-profile/:id", authMiddleware, getProfileDetails);
 
 //Get Other users
 router.get("/other-users/:id", authMiddleware, getOtherUsers);
+
+// Follow
+router.post("/follow/:id", authMiddleware, followUser);
 
 //Export
 export default router;
