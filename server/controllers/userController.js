@@ -269,7 +269,7 @@ export const followUser = async (req, res) => {
     const loggedInUserId = req.body.id;
     const userToFollowId = req.params.id;
 
-    //Check the user is exist or not
+    //Check the user to follow is exist or not
     const userToFollow = await userModel.findById(userToFollowId);
     if (!userToFollow) {
       return res.status(404).json({
@@ -301,6 +301,55 @@ export const followUser = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: `You are now following to ${userToFollow.name}`,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};
+
+//************* UN-FOLLOW USER ***********/
+export const unFollow = async (req, res) => {
+  try {
+    const loggedInUserId = req.body.id;
+    const userToUnFollowId = req.params.id;
+
+    //Check the user to un-follow is exist or not
+    const userToUnFollow = await userModel.findById(userToUnFollowId);
+    if (!userToUnFollow) {
+      return res.status(404).json({
+        success: false,
+        message: "User not exists!",
+      });
+    }
+
+    //Check if not user is already unfollowed
+    const alreadyUnFollowed =
+      !userToUnFollow.followers.includes(loggedInUserId);
+    if (alreadyUnFollowed) {
+      return res.status(400).json({
+        success: false,
+        message: `You are not following ${userToUnFollow.name}!`,
+      });
+    }
+
+    //Remove the user from the followers list (following user)
+    await userModel.findByIdAndUpdate(userToUnFollowId, {
+      $pull: { followers: loggedInUserId },
+    });
+
+    //Remove the user from the following of logged in user (logged in user)
+    await userModel.findByIdAndUpdate(loggedInUserId, {
+      $pull: { following: userToUnFollowId },
+    });
+
+    //Success
+    return res.status(200).json({
+      success: false,
+      message: `You are unfollowed to ${userToUnFollow.name}!`,
     });
   } catch (err) {
     return res.status(500).json({
