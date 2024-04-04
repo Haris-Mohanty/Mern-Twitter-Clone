@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import tweetModel from "../models/tweetModel.js";
 
 //********** USER REGISTRATION ********/
 export const registerUser = async (req, res) => {
@@ -350,6 +351,36 @@ export const unFollow = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: `You are unfollowed to ${userToUnFollow.name}!`,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};
+
+//*** GET ALL TWEETS (LOGGEDIN USER + FOLLOWING USER) *****/
+export const getAllTweets = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const loggedInUser = await userModel.findById(id);
+    const loggedInUserTweets = await tweetModel.find({ userId: id });
+
+    //Find all tweets of loggedIn user following
+    const followingUserTweets = await Promise.all(
+      loggedInUser.following.map((otherUsersId) => {
+        return tweetModel.find({ userId: otherUsersId });
+      })
+    );
+
+    //Combine tweets
+    const allTweets = loggedInUserTweets.concat(...followingUserTweets);
+
+    return res.status(200).json({
+      success: true,
+      tweets: allTweets,
     });
   } catch (err) {
     return res.status(500).json({
