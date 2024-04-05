@@ -361,7 +361,7 @@ export const unFollow = async (req, res) => {
   }
 };
 
-//*** GET ALL TWEETS (LOGGEDIN USER + FOLLOWING USER) *****/
+//****** GET ALL TWEETS (LOGGEDIN USER + FOLLOWING USER) *****/
 export const getAllTweets = async (req, res) => {
   try {
     const id = req.params.id;
@@ -378,6 +378,7 @@ export const getAllTweets = async (req, res) => {
     //Combine tweets
     const allTweets = loggedInUserTweets.concat(...followingUserTweets);
 
+    //Success Res
     return res.status(200).json({
       success: true,
       tweets: allTweets,

@@ -40,7 +40,7 @@ router.post("/follow/:id", authMiddleware, followUser);
 // Unfollow
 router.delete("/unfollow/:id", authMiddleware, unFollow);
 
-//Get tweets
+//Get tweets (loggedIn user + Following user)
 router.get("/get-tweets/:id", authMiddleware, getAllTweets);
 
 //Export
