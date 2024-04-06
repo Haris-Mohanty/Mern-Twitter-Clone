@@ -3,6 +3,27 @@ import logo from "../Assets/twitter.png";
 
 const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  //Form submit
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (isLoggedIn) {
+      //Login
+    } else {
+      //Register
+      try{
+
+      }catch(err){
+        
+      }
+    }
+  };
+
   const loginHandler = () => {
     setIsLoggedIn(!isLoggedIn);
   };
@@ -20,18 +41,23 @@ const Login = () => {
             <h1 className="mt-4 mb-2 text-3xl font-semibold">
               {!isLoggedIn ? "Register" : "Login"}
             </h1>
-            <form className="flex flex-col w-[65%]">
+            <form onSubmit={submitHandler} className="flex flex-col w-[65%]">
               {!isLoggedIn && (
                 <>
                   <input
                     type="text"
                     placeholder="Name"
                     className="outline-blue-500 border border-gray-800 px-3 py-2 rounded-xl my-1 text-md font-semibold"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                   <input
                     type="username"
                     placeholder="Username"
                     className="outline-blue-500 border border-gray-800 px-3 py-2 rounded-xl my-1 text-md font-semibold"
+                    autoComplete="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </>
               )}
@@ -40,11 +66,16 @@ const Login = () => {
                 type="email"
                 placeholder="Email"
                 className="outline-blue-500 border border-gray-800 px-3 py-2 rounded-xl my-1 text-md font-semibold"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <input
                 type="password"
                 placeholder="Password"
                 className="outline-blue-500 border border-gray-800 px-3 py-2 rounded-xl my-1 text-md font-semibold"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button className="bg-[#109BF0] border-none py-2 my-3 rounded-xl text-md text-white font-semibold">
                 {!isLoggedIn ? "Register" : "Login"}
