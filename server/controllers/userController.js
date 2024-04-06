@@ -391,3 +391,30 @@ export const getAllTweets = async (req, res) => {
     });
   }
 };
+
+//********* GET FOLLOWING USER TWEETS *******/
+export const getFollowingTweets = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const loggedInUser = await userModel.findById(id);
+
+    //Get following user tweets
+    const followingUserTweets = await Promise.all(
+      loggedInUser.following.map((otherUsersId) => {
+        return tweetModel.find({ userId: otherUsersId });
+      })
+    );
+
+    //Success
+    return res.status(200).json({
+      success: true,
+      tweets: [].concat(...followingUserTweets),
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};
