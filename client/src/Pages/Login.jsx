@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from "../Assets/twitter.png";
+import { registerUser } from "../api/api";
 
 const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -9,17 +10,19 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  //Form submit
-  const submitHandler = (e) => {
+  //********** Form submit ******************/
+  const submitHandler = async (e) => {
     e.preventDefault();
     if (isLoggedIn) {
       //Login
     } else {
       //Register
-      try{
-
-      }catch(err){
-        
+      try {
+        const data = { name, username, email, password };
+        const res = await registerUser(data);
+        console.log(res);
+      } catch (err) {
+        console.log(err.response.data.message);
       }
     }
   };
