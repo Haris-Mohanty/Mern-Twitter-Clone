@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from "../Assets/twitter.png";
-import { registerUser } from "../api/api";
+import { loginUser, registerUser } from "../api/api";
 
 const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -15,6 +15,13 @@ const Login = () => {
     e.preventDefault();
     if (isLoggedIn) {
       //Login
+      try {
+        const data = { email, password };
+        const res = await loginUser(data);
+        console.log(res);
+      } catch (err) {
+        console.log(err.response.data.message);
+      }
     } else {
       //Register
       try {
