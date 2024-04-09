@@ -4,10 +4,12 @@ import Home from "./Pages/Home";
 import PageNotFound from "./Pages/PageNotFound";
 import Profile from "./Pages/Profile";
 import Login from "./Pages/Login";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <>
+      <Toaster position="top-center" reverseOrder={false} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />

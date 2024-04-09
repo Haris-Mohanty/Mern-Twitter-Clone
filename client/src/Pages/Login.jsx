@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import logo from "../Assets/twitter.png";
 import { loginUser, registerUser } from "../api/api";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -18,18 +19,23 @@ const Login = () => {
       try {
         const data = { email, password };
         const res = await loginUser(data);
-        console.log(res);
+        if (res.success) {
+          toast.success(res.message);
+        }
       } catch (err) {
-        console.log(err.response.data.message);
+        toast.error(err.response.data.message);
       }
     } else {
       //Register
       try {
         const data = { name, username, email, password };
         const res = await registerUser(data);
-        console.log(res);
+        if (res.success) {
+          toast.success(res.message);
+          setIsLoggedIn(true);
+        }
       } catch (err) {
-        console.log(err.response.data.message);
+        toast.error(err.response.data.message);
       }
     }
   };

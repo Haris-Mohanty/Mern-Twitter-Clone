@@ -3,7 +3,12 @@ import axios from "axios";
 //**************** REGISTER USER **********/
 export const registerUser = async (data) => {
   try {
-    const response = await axios.post("/user/register", data);
+    const response = await axios.post("/user/register", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
 
     if (response.status === 201) {
       return response.data;
@@ -18,7 +23,12 @@ export const registerUser = async (data) => {
 //**************** REGISTER USER **********/
 export const loginUser = async (data) => {
   try {
-    const response = await axios.post("/user/login", data);
+    const response = await axios.post("/user/login", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
 
     if (response.status === 201) {
       return response.data;
