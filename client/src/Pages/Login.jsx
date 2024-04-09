@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import logo from "../Assets/twitter.png";
 import { loginUser, registerUser } from "../api/api";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -21,6 +23,7 @@ const Login = () => {
         const res = await loginUser(data);
         if (res.success) {
           toast.success(res.message);
+          navigate("/");
         }
       } catch (err) {
         toast.error(err.response.data.message);
