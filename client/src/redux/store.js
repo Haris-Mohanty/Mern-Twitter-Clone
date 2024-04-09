@@ -1,11 +1,15 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { userSlice } from "./userSlice";
+import { spinnerSlice } from "./spinnerSlice";
+
+//Combine Reducer
+const rootReducer = combineReducers({
+  spinner: spinnerSlice.reducer,
+  user: userSlice.reducer,
+});
 
 const store = configureStore({
-  reducer: {
-    //Actions
-    user: userSlice,
-  },
+  reducer: rootReducer,
 });
 
 export default store;
