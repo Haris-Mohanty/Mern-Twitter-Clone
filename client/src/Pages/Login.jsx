@@ -3,10 +3,13 @@ import logo from "../Assets/twitter.png";
 import { loginUser, registerUser } from "../api/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { showLoading, hideLoading } from "../redux/spinnerSlice";
 
 const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -16,28 +19,37 @@ const Login = () => {
   //********** Form submit ******************/
   const submitHandler = async (e) => {
     e.preventDefault();
+    const data = isLoggedIn
+      ? { email, password }
+      : { name, username, email, password };
+
     if (isLoggedIn) {
       //Login
       try {
-        const data = { email, password };
+        dispatch(showLoading());
         const res = await loginUser(data);
+        console.log(res)
         if (res.success) {
+          dispatch(hideLoading());
           toast.success(res.message);
           navigate("/");
         }
       } catch (err) {
+        dispatch(hideLoading());
         toast.error(err.response.data.message);
       }
     } else {
       //Register
       try {
-        const data = { name, username, email, password };
+        dispatch(showLoading());
         const res = await registerUser(data);
         if (res.success) {
+          dispatch(hideLoading());
           toast.success(res.message);
           setIsLoggedIn(true);
         }
       } catch (err) {
+        dispatch(hideLoading());
         toast.error(err.response.data.message);
       }
     }
