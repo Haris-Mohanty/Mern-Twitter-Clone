@@ -39,3 +39,20 @@ export const loginUser = async (data) => {
     throw err;
   }
 };
+
+//**************** GET USER PROFILE **********/
+export const getUserProfile = async (id) => {
+  try {
+    const response = await axios.get(`/user/get-profile/${id}`, {
+      withCredentials: true,
+    });
+
+    if (response.status === 201) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
