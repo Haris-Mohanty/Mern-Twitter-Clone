@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LeftSidebar from "../components/LeftSidebar";
 import RightSidebar from "../components/RightSidebar";
 import { IoMdArrowBack } from "react-icons/io";
@@ -11,6 +11,7 @@ import { setUser } from "../redux/userSlice";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
+  const [users, setUsers] = useState(null);
   const dispatch = useDispatch();
 
   //Gte User Profile Details
@@ -21,6 +22,7 @@ const Profile = () => {
       const res = await getUserProfile(id);
       if (res.success) {
         dispatch(setUser(res.user));
+        setUsers(res.user);
       }
       dispatch(hideLoading());
     } catch (err) {
@@ -48,7 +50,7 @@ const Profile = () => {
                 <IoMdArrowBack size={"24px"} />
               </Link>
               <div className="ml-2">
-                <h1 className="font-bold text-lg">Haris Mohanty</h1>
+                <h1 className="font-bold text-lg">{users?.name}</h1>
                 <p className="text-gray-500 text-sm">10 posts</p>
               </div>
             </div>
@@ -72,8 +74,8 @@ const Profile = () => {
               </button>
             </div>
             <div className="m-3">
-              <h1 className="font-bold text-xl">Haris Mohanty</h1>
-              <p>@haris_mohanty</p>
+              <h1 className="font-bold text-xl">{users?.name}</h1>
+              <p>@{users?.username}</p>
             </div>
             <div className="m-3 text-sm">
               <p>
