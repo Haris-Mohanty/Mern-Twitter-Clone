@@ -1,11 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LeftSidebar from "../components/LeftSidebar";
 import RightSidebar from "../components/RightSidebar";
 import { IoMdArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 import Avatar from "react-avatar";
+import { useSelector, useDispatch } from "react-redux";
+import { showLoading, hideLoading } from "../redux/spinnerSlice";
+import { getUserProfile } from "../api/api";
+import { setUser } from "../redux/userSlice";
 
 const Profile = () => {
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  //Gte User Profile Details
+  const getUserProfileDetails = async () => {
+    try {
+      const id = user?._id;
+      dispatch(showLoading());
+      const res = await getUserProfile(id);
+      if (res.success) {
+        dispatch(setUser(res.user));
+      }
+      dispatch(hideLoading());
+    } catch (err) {
+      dispatch(hideLoading());
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getUserProfileDetails();
+    //eslint-disable-next-line
+  }, []);
+
   return (
     <>
       <div className="flex justify-between w-[80%] mx-auto">

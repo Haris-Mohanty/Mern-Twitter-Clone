@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/spinnerSlice";
+import { setUser } from "../redux/userSlice";
 
 const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -28,8 +29,8 @@ const Login = () => {
       try {
         dispatch(showLoading());
         const res = await loginUser(data);
-        console.log(res)
         if (res.success) {
+          dispatch(setUser(res.user));
           dispatch(hideLoading());
           toast.success(res.message);
           navigate("/");
