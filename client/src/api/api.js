@@ -56,3 +56,20 @@ export const getUserProfile = async (id) => {
     throw err;
   }
 };
+
+//**************** GET OTHER USERS **********/
+export const getOtherUsers = async (id) => {
+  try {
+    const response = await axios.get(`/user/other-users/${id}`, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
