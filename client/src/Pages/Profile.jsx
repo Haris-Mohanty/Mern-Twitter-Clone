@@ -7,7 +7,7 @@ import Avatar from "react-avatar";
 import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/spinnerSlice";
 import { getUserProfile } from "../api/api";
-import { setUser } from "../redux/userSlice";
+import { setProfile } from "../redux/userSlice";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
@@ -21,10 +21,10 @@ const Profile = () => {
       dispatch(showLoading());
       const res = await getUserProfile(id);
       if (res.success) {
-        dispatch(setUser(res.user));
+        dispatch(hideLoading());
+        dispatch(setProfile(res.user));
         setUsers(res.user);
       }
-      dispatch(hideLoading());
     } catch (err) {
       dispatch(hideLoading());
       console.log(err);
