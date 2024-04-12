@@ -73,3 +73,20 @@ export const getOtherUsers = async (id) => {
     throw err;
   }
 };
+
+//**************** GET ALL TWEETS **********/
+export const getAllTweets = async (id) => {
+  try {
+    const response = await axios.get(`/user/get-tweets/${id}`, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
