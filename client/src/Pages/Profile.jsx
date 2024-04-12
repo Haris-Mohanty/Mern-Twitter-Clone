@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import LeftSidebar from "../components/LeftSidebar";
 import RightSidebar from "../components/RightSidebar";
 import { IoMdArrowBack } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Avatar from "react-avatar";
 import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/spinnerSlice";
@@ -10,14 +10,14 @@ import { getUserProfile } from "../api/api";
 import { setProfile } from "../redux/userSlice";
 
 const Profile = () => {
-  const { user } = useSelector((state) => state.user);
+  const { otherUsers } = useSelector((state) => state.user);
   const [users, setUsers] = useState(null);
   const dispatch = useDispatch();
+  const { id } = useParams();
 
   //Gte User Profile Details
   const getUserProfileDetails = async () => {
     try {
-      const id = user?._id;
       dispatch(showLoading());
       const res = await getUserProfile(id);
       if (res.success) {
@@ -87,7 +87,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <RightSidebar />
+        <RightSidebar otherUser={otherUsers} />
       </div>
     </>
   );

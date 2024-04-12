@@ -1,6 +1,7 @@
 import React from "react";
 import Avatar from "react-avatar";
 import { CiSearch } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 const RightSidebar = ({ otherUser }) => {
   // Showing Users upto 3
@@ -35,9 +36,11 @@ const RightSidebar = ({ otherUser }) => {
                 </div>
               </div>
               <div>
-                <button className="px-4 py-1 bg-black text-white rounded-full">
-                  Profile
-                </button>
+                <Link to={`/profile/${user?._id}`}>
+                  <button className="px-4 py-1 bg-black text-white rounded-full">
+                    Profile
+                  </button>
+                </Link>
               </div>
             </div>
           ))}
