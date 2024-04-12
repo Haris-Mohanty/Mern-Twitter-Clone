@@ -38,7 +38,7 @@ const Home = () => {
     <div className="flex justify-between w-[80%] mx-auto">
       <LeftSidebar />
       <Feed />
-      <RightSidebar />
+      <RightSidebar otherUser={otherUser} />
     </div>
   );
 };

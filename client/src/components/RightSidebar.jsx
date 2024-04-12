@@ -2,7 +2,10 @@ import React from "react";
 import Avatar from "react-avatar";
 import { CiSearch } from "react-icons/ci";
 
-const RightSidebar = () => {
+const RightSidebar = ({ otherUser }) => {
+  // Showing Users upto 3
+  const showOtherUsers = otherUser ? otherUser.slice(0, 3) : [];
+
   return (
     <>
       <div className="w-[25%] mt-2 ml-4">
@@ -16,26 +19,28 @@ const RightSidebar = () => {
         </div>
         <div className="p-4 my-4 bg-gray-100 rounded-2xl">
           <h1 className="font-bold text-lg">Who to follow</h1>
-          <div className="flex ic justify-between my-3">
-            <div className="flex">
+          {showOtherUsers?.map((user) => (
+            <div key={user?._id} className="flex ic justify-between my-3">
+              <div className="flex">
+                <div>
+                  <Avatar
+                    src="https://pbs.twimg.com/profile_images/1676844366659457024/1qiyi4zB_400x400.jpg"
+                    size="40"
+                    round={true}
+                  />
+                </div>
+                <div className="ml-2 ">
+                  <h1 className="font-bold">{user?.name}</h1>
+                  <p className="text-sm text-gray-600">@{user?.username}</p>
+                </div>
+              </div>
               <div>
-                <Avatar
-                  src="https://pbs.twimg.com/profile_images/1676844366659457024/1qiyi4zB_400x400.jpg"
-                  size="40"
-                  round={true}
-                />
-              </div>
-              <div className="ml-2 ">
-                <h1 className="font-bold">Virat</h1>
-                <p className="text-sm text-gray-600">@virat_kohli637</p>
+                <button className="px-4 py-1 bg-black text-white rounded-full">
+                  Profile
+                </button>
               </div>
             </div>
-            <div>
-              <button className="px-4 py-1 bg-black text-white rounded-full">
-                Profile
-              </button>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </>
