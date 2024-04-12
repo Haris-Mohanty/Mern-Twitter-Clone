@@ -4,8 +4,9 @@ import Feed from "../components/Feed";
 import RightSidebar from "../components/RightSidebar";
 import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/spinnerSlice";
-import { getOtherUsers } from "../api/api";
+import { getAllTweets, getOtherUsers } from "../api/api";
 import { setOtherUsers } from "../redux/userSlice";
+import { setAllTweets } from "../redux/tweetSlice";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
@@ -29,8 +30,25 @@ const Home = () => {
     }
   };
 
+  // Get all tweets
+  const fetchAllTweets = async () => {
+    try {
+      const id = user?._id;
+      dispatch(showLoading());
+      const res = await getAllTweets(id);
+      if (res.success) {
+        dispatch(hideLoading());
+        dispatch(setAllTweets(res.tweets));
+      }
+    } catch (err) {
+      dispatch(hideLoading());
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     fetchOtherUsers();
+    fetchAllTweets();
     //eslint-disable-next-line
   }, []);
 
