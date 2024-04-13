@@ -90,3 +90,23 @@ export const getAllTweets = async (id) => {
     throw err;
   }
 };
+
+//**************** CREATE POST || TWEET **********/
+export const createPost = async (data) => {
+  try {
+    const response = await axios.post("/tweet/create-tweet", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
+
+    if (response.status === 201) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
