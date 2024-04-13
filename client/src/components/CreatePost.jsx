@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "react-avatar";
 import { CiImageOn } from "react-icons/ci";
+import { useDispatch, useSelector } from "react-redux";
+import { hideLoading, showLoading } from "../redux/spinnerSlice";
+import { createPost } from "../api/api";
 
 const CreatePost = () => {
+  const { user } = useSelector((state) => state.user);
+
+  const [description, setDescription] = useState("");
+  const dispatch = useDispatch();
+
+  // Submit || Post Tweet
+  const submitHandler = async () => {
+    try {
+      const id = user._id;
+      const data = { description, id };
+      dispatch(showLoading());
+      const res = await createPost(data);
+      console.log(res);
+      dispatch(hideLoading());
+    } catch (err) {
+      dispatch(hideLoading());
+      console.log(err);
+    }
+  };
   return (
     <>
       <div className="w-[100%]">
@@ -29,13 +51,18 @@ const CreatePost = () => {
                   className="w-full outline-none border-none text-lg ml-2 font-semibold"
                   type="text"
                   placeholder="What is happening?!"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
               <div className="flex items-center justify-between p-4 border-b border-gray-300">
                 <div>
-                  <CiImageOn size={20} color="#0062ff"/>
+                  <CiImageOn size={20} color="#0062ff" />
                 </div>
-                <button className="bg-[#109BF0] text-white rounded-full px-4 py-1 text-lg font-semibold border-none">
+                <button
+                  onClick={submitHandler}
+                  className="bg-[#109BF0] text-white rounded-full px-4 py-1 text-lg font-semibold border-none"
+                >
                   Post
                 </button>
               </div>
