@@ -17,8 +17,10 @@ const Tweet = ({ tweet }) => {
             />
             <div className="ml-2 w-full">
               <div className="flex items-center">
-                <h1 className="font-bold">Haris</h1>
-                <p className="text-gray-500 text-sm">@haris_mohanty .1m</p>
+                <h1 className="font-bold">{tweet?.userId?.name} </h1>
+                <p className="text-gray-500 text-sm">
+                  @{tweet?.userId?.username} .1m
+                </p>
               </div>
               <div>
                 <p>{tweet?.description}</p>
