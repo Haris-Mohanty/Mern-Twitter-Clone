@@ -4,7 +4,6 @@ import { CiImageOn } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { hideLoading, showLoading } from "../redux/spinnerSlice";
 import { createPost } from "../api/api";
-import toast from "react-hot-toast";
 
 const CreatePost = () => {
   const { user } = useSelector((state) => state.user);
@@ -19,15 +18,11 @@ const CreatePost = () => {
       const data = { description, id };
       dispatch(showLoading());
       const res = await createPost(data);
-
-      if (res.status) {
-        dispatch(hideLoading());
-        toast.success(res.message);
-        setDescription("");
-      }
+      console.log(res);
+      dispatch(hideLoading());
     } catch (err) {
       dispatch(hideLoading());
-      toast.error(err.response.data.message);
+      console.log(err);
     }
   };
   return (
