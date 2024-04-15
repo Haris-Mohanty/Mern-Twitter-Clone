@@ -110,3 +110,20 @@ export const createPost = async (data) => {
     throw err;
   }
 };
+
+//*************** LIEK AND DISLIKE TWEET **************/
+export const likeAndDislike = async (id, loggedInUserId) => {
+  try {
+    const response = await axios.put(`/tweet/like/${id}`, loggedInUserId, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};

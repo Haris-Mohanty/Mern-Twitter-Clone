@@ -18,8 +18,10 @@ const CreatePost = () => {
       const data = { description, id };
       dispatch(showLoading());
       const res = await createPost(data);
-      console.log(res);
-      dispatch(hideLoading());
+      if (res.success) {
+        dispatch(hideLoading());
+        setDescription("");
+      }
     } catch (err) {
       dispatch(hideLoading());
       console.log(err);
