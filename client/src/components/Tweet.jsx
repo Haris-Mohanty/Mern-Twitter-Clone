@@ -6,7 +6,7 @@ import { FaRegBookmark } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { hideLoading, showLoading } from "../redux/spinnerSlice";
 import { likeAndDislike } from "../api/api";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 const Tweet = ({ tweet }) => {
   const { user } = useSelector((state) => state.user);
@@ -17,11 +17,11 @@ const Tweet = ({ tweet }) => {
     try {
       dispatch(showLoading());
       const res = await likeAndDislike(tweetId, user?._id);
-      if(res.sta)
       dispatch(hideLoading());
+      toast.success(res.message);
     } catch (err) {
       dispatch(hideLoading());
-      console.log(err);
+      toast.error(err.response.data.message);
     }
   };
   return (
