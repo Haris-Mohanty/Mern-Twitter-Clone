@@ -112,11 +112,15 @@ export const createPost = async (data) => {
 };
 
 //*************** LIEK AND DISLIKE TWEET **************/
-export const likeAndDislike = async (id, loggedInUserId) => {
+export const likeAndDislike = async (tweetId, loggedInUserId) => {
   try {
-    const response = await axios.put(`/tweet/like/${id}`, loggedInUserId, {
-      withCredentials: true,
-    });
+    const response = await axios.put(
+      `/tweet/like/${tweetId}`,
+      { id: loggedInUserId },
+      {
+        withCredentials: true,
+      }
+    );
 
     if (response.status === 200) {
       return response.data;

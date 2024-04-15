@@ -3,8 +3,27 @@ import Avatar from "react-avatar";
 import { FaRegComment } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { hideLoading, showLoading } from "../redux/spinnerSlice";
+import { likeAndDislike } from "../api/api";
+import toast from 'react-hot-toast';
 
 const Tweet = ({ tweet }) => {
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  // Like and Dislike
+  const likeDislikeHandler = async (tweetId) => {
+    try {
+      dispatch(showLoading());
+      const res = await likeAndDislike(tweetId, user?._id);
+      if(res.sta)
+      dispatch(hideLoading());
+    } catch (err) {
+      dispatch(hideLoading());
+      console.log(err);
+    }
+  };
   return (
     <>
       <div className="border-b border-gray-200">
@@ -33,7 +52,10 @@ const Tweet = ({ tweet }) => {
                   <p>0</p>
                 </div>
                 <div className="flex items-center ">
-                  <div className="p-2 rounded-full hover:bg-pink-100 cursor-pointer">
+                  <div
+                    onClick={() => likeDislikeHandler(tweet?._id)}
+                    className="p-2 rounded-full hover:bg-pink-100 cursor-pointer"
+                  >
                     <FaRegHeart />
                   </div>
                   <p>{tweet?.like?.length}</p>

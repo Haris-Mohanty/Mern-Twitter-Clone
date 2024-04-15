@@ -73,6 +73,7 @@ export const likeOrDislike = async (req, res) => {
     if (!tweet) {
       return res.status(404).json({
         message: "Tweet not found",
+        success: false,
       });
     }
 
@@ -83,6 +84,7 @@ export const likeOrDislike = async (req, res) => {
       });
       return res.status(200).json({
         message: "User disliked your tweet!",
+        success: true,
       });
     } else {
       //like
@@ -91,6 +93,7 @@ export const likeOrDislike = async (req, res) => {
       });
       return res.status(200).json({
         message: "User liked your tweet!",
+        success: true,
       });
     }
   } catch (err) {
