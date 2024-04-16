@@ -10,6 +10,7 @@ import { setAllTweets } from "../redux/tweetSlice";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
+  const { refresh } = useSelector((state) => state.tweets);
   const dispatch = useDispatch();
   const [otherUser, setOtherUser] = useState([]);
 
@@ -50,7 +51,7 @@ const Home = () => {
     fetchOtherUsers();
     fetchAllTweets();
     //eslint-disable-next-line
-  }, []);
+  }, [refresh]);
 
   return (
     <div className="flex justify-between w-[80%] mx-auto">

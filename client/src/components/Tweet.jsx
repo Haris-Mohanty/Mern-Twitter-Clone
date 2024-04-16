@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { hideLoading, showLoading } from "../redux/spinnerSlice";
 import { likeAndDislike } from "../api/api";
 import toast from "react-hot-toast";
+import { setRefresh } from "../redux/tweetSlice";
 
 const Tweet = ({ tweet }) => {
   const { user } = useSelector((state) => state.user);
@@ -18,6 +19,7 @@ const Tweet = ({ tweet }) => {
       dispatch(showLoading());
       const res = await likeAndDislike(tweetId, user?._id);
       dispatch(hideLoading());
+      dispatch(setRefresh());
       toast.success(res.message);
     } catch (err) {
       dispatch(hideLoading());

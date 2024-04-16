@@ -4,6 +4,7 @@ import { CiImageOn } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { hideLoading, showLoading } from "../redux/spinnerSlice";
 import { createPost } from "../api/api";
+import { setRefresh } from "../redux/tweetSlice";
 
 const CreatePost = () => {
   const { user } = useSelector((state) => state.user);
@@ -18,6 +19,7 @@ const CreatePost = () => {
       const data = { description, id };
       dispatch(showLoading());
       const res = await createPost(data);
+      dispatch(setRefresh());
       if (res.success) {
         dispatch(hideLoading());
         setDescription("");
