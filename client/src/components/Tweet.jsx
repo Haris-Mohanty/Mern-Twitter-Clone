@@ -3,6 +3,7 @@ import Avatar from "react-avatar";
 import { FaRegComment } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { hideLoading, showLoading } from "../redux/spinnerSlice";
 import { likeAndDislike } from "../api/api";
@@ -67,6 +68,11 @@ const Tweet = ({ tweet }) => {
                     <FaRegBookmark />
                   </div>
                   <p>0</p>
+                </div>
+                <div className="flex items-center ">
+                  <div className="p-2 rounded-full hover:bg-red-400 cursor-pointer">
+                    <MdDeleteOutline />
+                  </div>
                 </div>
               </div>
             </div>
