@@ -69,11 +69,13 @@ const Tweet = ({ tweet }) => {
                   </div>
                   <p>0</p>
                 </div>
-                <div className="flex items-center ">
-                  <div className="p-2 rounded-full hover:bg-red-400 cursor-pointer">
-                    <MdDeleteOutline />
+                {user?._id === tweet?.userId?._id && (
+                  <div className="flex items-center ">
+                    <div className="p-2 rounded-full hover:bg-red-400 cursor-pointer">
+                      <MdDeleteOutline />
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

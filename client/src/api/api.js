@@ -131,3 +131,20 @@ export const likeAndDislike = async (tweetId, loggedInUserId) => {
     throw err;
   }
 };
+
+//*************** DELETE TWEET **************/
+export const deleteTweet = async (id) => {
+  try {
+    const response = await axios.delete(`/tweet/delete-tweet/${id}`, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
