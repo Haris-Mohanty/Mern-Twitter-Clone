@@ -6,7 +6,7 @@ import { FaRegBookmark } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { hideLoading, showLoading } from "../redux/spinnerSlice";
-import { likeAndDislike } from "../api/api";
+import { deleteTweet, likeAndDislike } from "../api/api";
 import toast from "react-hot-toast";
 import { setRefresh } from "../redux/tweetSlice";
 
@@ -22,6 +22,22 @@ const Tweet = ({ tweet }) => {
       dispatch(hideLoading());
       dispatch(setRefresh());
       toast.success(res.message);
+    } catch (err) {
+      dispatch(hideLoading());
+      toast.error(err.response.data.message);
+    }
+  };
+
+  //Delete Tweet
+  const deleteTweetHandler = async (id) => {
+    try {
+      dispatch(showLoading());
+      const res = await deleteTweet(id);
+      if (res.success) {
+        dispatch(hideLoading());
+        toast.success(res.message);
+        dispatch(setRefresh());
+      }
     } catch (err) {
       dispatch(hideLoading());
       toast.error(err.response.data.message);
@@ -71,7 +87,10 @@ const Tweet = ({ tweet }) => {
                 </div>
                 {user?._id === tweet?.userId?._id && (
                   <div className="flex items-center ">
-                    <div className="p-2 rounded-full hover:bg-red-400 cursor-pointer">
+                    <div
+                      onClick={() => deleteTweetHandler(tweet?._id)}
+                      className="p-2 rounded-full hover:bg-red-400 cursor-pointer"
+                    >
                       <MdDeleteOutline />
                     </div>
                   </div>
