@@ -29,6 +29,18 @@ const CreatePost = () => {
       console.log(err);
     }
   };
+
+  //Show Following Tweets
+  const followingTweetHandler = async () => {
+    try {
+      dispatch(showLoading());
+      dispatch(hideLoading());
+    } catch (err) {
+      dispatch(hideLoading());
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <div className="w-[100%]">
@@ -37,7 +49,10 @@ const CreatePost = () => {
             <div className="cursor-pointer hover:bg-gray-200 text-center w-full px-4 py-3">
               <h1 className="font-semibold text-gray-600">For you</h1>
             </div>
-            <div className="cursor-pointer hover:bg-gray-200 text-center w-full px-4 py-3">
+            <div
+              onClick={followingTweetHandler}
+              className="cursor-pointer hover:bg-gray-200 text-center w-full px-4 py-3"
+            >
               <h1 className="font-semibold text-gray-600">Following</h1>
             </div>
           </div>
