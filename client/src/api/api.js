@@ -148,3 +148,20 @@ export const deleteTweet = async (id) => {
     throw err;
   }
 };
+
+//********** GET FOLLOWING USERS TWEETS **************/
+export const getFollowingUsersTweets = async (id) => {
+  try {
+    const response = await axios.get(`/user/following-tweets/${id}`, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
