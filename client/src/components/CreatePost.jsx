@@ -3,8 +3,9 @@ import Avatar from "react-avatar";
 import { CiImageOn } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { hideLoading, showLoading } from "../redux/spinnerSlice";
-import { createPost } from "../api/api";
-import { setRefresh } from "../redux/tweetSlice";
+import { createPost, getFollowingUsersTweets } from "../api/api";
+import { setRefresh, setAllTweets } from "../redux/tweetSlice";
+import toast from "react-hot-toast";
 
 const CreatePost = () => {
   const { user } = useSelector((state) => state.user);
@@ -34,10 +35,12 @@ const CreatePost = () => {
   const followingTweetHandler = async () => {
     try {
       dispatch(showLoading());
+      const res = await getFollowingUsersTweets(user?._id);
+      dispatch(setAllTweets(res.tweets));
       dispatch(hideLoading());
     } catch (err) {
       dispatch(hideLoading());
-      console.log(err);
+      toast.error(err.response.data.message);
     }
   };
 
