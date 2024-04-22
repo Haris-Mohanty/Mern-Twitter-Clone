@@ -3,12 +3,13 @@ import Avatar from "react-avatar";
 import { CiImageOn } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { hideLoading, showLoading } from "../redux/spinnerSlice";
-import { createPost, getFollowingUsersTweets } from "../api/api";
-import { setRefresh, setAllTweets } from "../redux/tweetSlice";
+import { createPost, getAllTweets, getFollowingUsersTweets } from "../api/api";
+import { setRefresh, setAllTweets, setIsActive } from "../redux/tweetSlice";
 import toast from "react-hot-toast";
 
 const CreatePost = () => {
   const { user } = useSelector((state) => state.user);
+  const { isActive } = useSelector((state) => state.tweets);
 
   const [description, setDescription] = useState("");
   const dispatch = useDispatch();
@@ -36,7 +37,22 @@ const CreatePost = () => {
     try {
       dispatch(showLoading());
       const res = await getFollowingUsersTweets(user?._id);
+      console.log(res);
       dispatch(setAllTweets(res.tweets));
+      dispatch(setIsActive(false));
+      dispatch(hideLoading());
+    } catch (err) {
+      dispatch(hideLoading());
+      toast.error(err.response.data.message);
+    }
+  };
+
+  const forYouHandler = async () => {
+    try {
+      dispatch(showLoading());
+      const res = await getAllTweets(user?._id);
+      dispatch(setAllTweets(res.tweets));
+      dispatch(setIsActive(true));
       dispatch(hideLoading());
     } catch (err) {
       dispatch(hideLoading());
@@ -49,12 +65,23 @@ const CreatePost = () => {
       <div className="w-[100%]">
         <div>
           <div className="flex items-center justify-around border-b border-gray-200">
-            <div className="cursor-pointer hover:bg-gray-200 text-center w-full px-4 py-3">
+            <div
+              onClick={forYouHandler}
+              className={`${
+                isActive
+                  ? "border-b-4 border-blue-600"
+                  : "border-b border-transparent"
+              } cursor-pointer hover:bg-gray-200 text-center w-full px-4 py-3`}
+            >
               <h1 className="font-semibold text-gray-600">For you</h1>
             </div>
             <div
               onClick={followingTweetHandler}
-              className="cursor-pointer hover:bg-gray-200 text-center w-full px-4 py-3"
+              className={`${
+                !isActive
+                  ? "border-b-4 border-blue-600"
+                  : "border-b border-transparent"
+              } cursor-pointer hover:bg-gray-200 text-center w-full px-4 py-3`}
             >
               <h1 className="font-semibold text-gray-600">Following</h1>
             </div>

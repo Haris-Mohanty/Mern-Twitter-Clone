@@ -406,7 +406,7 @@ export const getFollowingTweets = async (req, res) => {
     //Get following user tweets
     const followingUserTweets = await Promise.all(
       loggedInUser.following.map((otherUsersId) => {
-        return tweetModel.find({ userId: otherUsersId });
+        return tweetModel.find({ userId: otherUsersId }).populate("userId");
       })
     );
 
