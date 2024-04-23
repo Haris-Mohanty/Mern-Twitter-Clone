@@ -37,7 +37,6 @@ const CreatePost = () => {
     try {
       dispatch(showLoading());
       const res = await getFollowingUsersTweets(user?._id);
-      console.log(res);
       dispatch(setAllTweets(res.tweets));
       dispatch(setIsActive(false));
       dispatch(hideLoading());

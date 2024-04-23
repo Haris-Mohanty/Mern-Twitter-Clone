@@ -10,7 +10,7 @@ import { getUserProfile } from "../api/api";
 import { setProfile } from "../redux/userSlice";
 
 const Profile = () => {
-  const { otherUsers } = useSelector((state) => state.user);
+  const { user, profile, otherUsers } = useSelector((state) => state.user);
   const [users, setUsers] = useState(null);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -30,6 +30,7 @@ const Profile = () => {
       console.log(err);
     }
   };
+  
 
   useEffect(() => {
     getUserProfileDetails();
@@ -69,9 +70,15 @@ const Profile = () => {
               />
             </div>
             <div className="text-right m-3">
-              <button className="px-4 py-1 rounded-full border border-gray-400 hover:bg-gray-200">
-                Edit Profile
-              </button>
+              {user?._id === profile?._id ? (
+                <button className="px-4 py-1 rounded-full border border-gray-400 hover:bg-gray-200">
+                  Edit Profile
+                </button>
+              ) : (
+                <button className="px-4 py-1 rounded-full border border-gray-400 hover:bg-gray-200">
+                  Follow
+                </button>
+              )}
             </div>
             <div className="m-3">
               <h1 className="font-bold text-xl">{users?.name}</h1>
