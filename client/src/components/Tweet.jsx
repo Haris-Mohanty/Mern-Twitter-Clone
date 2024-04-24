@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar from "react-avatar";
 import { FaRegComment } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,6 +43,8 @@ const Tweet = ({ tweet }) => {
       toast.error(err.response.data.message);
     }
   };
+
+  const userLikedTweet = tweet.like.some((like) => like === user?._id);
   return (
     <>
       <div className="border-b border-gray-200">
@@ -73,9 +75,15 @@ const Tweet = ({ tweet }) => {
                 <div className="flex items-center ">
                   <div
                     onClick={() => likeDislikeHandler(tweet?._id)}
-                    className="p-2 rounded-full hover:bg-pink-100 cursor-pointer"
+                    className={`p-2 rounded-full cursor-pointer hover:scale-110 transition duration-300 ease-in-out ${
+                      userLikedTweet ? "p-0 mx-1" : "hover:bg-pink-200"
+                    }`}
                   >
-                    <FaRegHeart />
+                    {userLikedTweet ? (
+                      <FaHeart color="red" />
+                    ) : (
+                      <FaRegHeart color="inherit" />
+                    )}
                   </div>
                   <p>{tweet?.like?.length}</p>
                 </div>
