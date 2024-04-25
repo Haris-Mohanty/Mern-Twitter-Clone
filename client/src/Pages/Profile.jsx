@@ -6,8 +6,10 @@ import { Link, useParams } from "react-router-dom";
 import Avatar from "react-avatar";
 import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/spinnerSlice";
-import { getUserProfile } from "../api/api";
+import { followUser, getUserProfile } from "../api/api";
 import { setProfile } from "../redux/userSlice";
+import { setRefresh } from "../redux/tweetSlice";
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const { user, profile, otherUsers } = useSelector((state) => state.user);
@@ -28,6 +30,28 @@ const Profile = () => {
     } catch (err) {
       dispatch(hideLoading());
       console.log(err);
+    }
+  };
+
+  // FOLLOW AND UNFOLLOW HANDLER
+  const followAndUnfollowHandler = async () => {
+    if (user?.following.includes(id)) {
+      //Unfollow
+      console.log("Unfollow");
+    } else {
+      //Follow
+      try {
+        dispatch(showLoading());
+        const res = await followUser(id, user?._id);
+        if (res.success) {
+          dispatch(hideLoading());
+          toast.success(res.message);
+          dispatch(setRefresh());
+        }
+      } catch (err) {
+        dispatch(hideLoading());
+        toast.error(err.response.data.message);
+      }
     }
   };
 
@@ -74,7 +98,10 @@ const Profile = () => {
                   Edit Profile
                 </button>
               ) : (
-                <button className="px-4 py-1 bg-black text-white rounded-full">
+                <button
+                  onClick={followAndUnfollowHandler}
+                  className="px-4 py-1 bg-black text-white rounded-full"
+                >
                   {user?.following.includes(id) ? "Following" : "Follow"}
                 </button>
               )}
