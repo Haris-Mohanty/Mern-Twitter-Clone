@@ -165,3 +165,24 @@ export const getFollowingUsersTweets = async (id) => {
     throw err;
   }
 };
+
+//********** FOLLOW USER **************/
+export const followUser = async (id, loggedInUserId) => {
+  try {
+    const response = await axios.post(
+      `/user/follow/${id}`,
+      { id: loggedInUserId },
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
