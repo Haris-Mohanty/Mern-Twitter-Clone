@@ -30,7 +30,6 @@ const Profile = () => {
       console.log(err);
     }
   };
-  
 
   useEffect(() => {
     getUserProfileDetails();
@@ -75,8 +74,8 @@ const Profile = () => {
                   Edit Profile
                 </button>
               ) : (
-                <button className="px-4 py-1 rounded-full border border-gray-400 hover:bg-gray-200">
-                  Follow
+                <button className="px-4 py-1 bg-black text-white rounded-full">
+                  {user?.following.includes(id) ? "Following" : "Follow"}
                 </button>
               )}
             </div>
