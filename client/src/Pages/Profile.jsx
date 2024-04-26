@@ -6,8 +6,8 @@ import { Link, useParams } from "react-router-dom";
 import Avatar from "react-avatar";
 import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/spinnerSlice";
-import { followUser, getUserProfile } from "../api/api";
-import { setProfile } from "../redux/userSlice";
+import { followUser, getUserProfile, unFollowUser } from "../api/api";
+import { followingUpdate, setProfile } from "../redux/userSlice";
 import { setRefresh } from "../redux/tweetSlice";
 import toast from "react-hot-toast";
 
@@ -36,10 +36,22 @@ const Profile = () => {
   // FOLLOW AND UNFOLLOW HANDLER
   const followAndUnfollowHandler = async () => {
     if (user?.following.includes(id)) {
-      //Unfollow
-      console.log("Unfollow");
+      //Unfollow user
+      try {
+        dispatch(showLoading());
+        const res = await unFollowUser(id, user?._id);
+        if (res.success) {
+          dispatch(followingUpdate(id))
+          dispatch(hideLoading());
+          toast.success(res.message);
+        }
+      } catch (err) {
+        dispatch(hideLoading());
+        console.log(err);
+        toast.error(err.response.data.message);
+      }
     } else {
-      //Follow
+      //Follow user
       try {
         dispatch(showLoading());
         const res = await followUser(id, user?._id);

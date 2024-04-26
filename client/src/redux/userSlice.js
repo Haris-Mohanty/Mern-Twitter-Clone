@@ -18,7 +18,19 @@ export const userSlice = createSlice({
     setProfile: (state, action) => {
       state.profile = action.payload;
     },
+    followingUpdate: (state, action) => {
+      if (state.user.following.includes(action.payload)) {
+        //Unfollow
+        state.user.following = state.user.following.filter((itemId) => {
+          return itemId !== action.payload;
+        });
+      } else {
+        //Follow
+        state.user.following.push(action.payload);
+      }
+    },
   },
 });
 
-export const { setUser, setOtherUsers, setProfile } = userSlice.actions;
+export const { setUser, setOtherUsers, setProfile, followingUpdate } =
+  userSlice.actions;
