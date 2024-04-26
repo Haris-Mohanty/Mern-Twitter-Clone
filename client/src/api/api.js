@@ -186,3 +186,22 @@ export const followUser = async (id, loggedInUserId) => {
     throw err;
   }
 };
+
+//********** UN-FOLLOW USER **************/
+export const unFollowUser = async (id, loggedInUserId) => {
+  try {
+    const response = await axios.delete(
+      `/user/unfollow/${id}`,
+      { id: loggedInUserId },
+      { withCredentials: true }
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
