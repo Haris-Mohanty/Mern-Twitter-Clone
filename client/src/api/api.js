@@ -190,7 +190,7 @@ export const followUser = async (id, loggedInUserId) => {
 //********** UN-FOLLOW USER **************/
 export const unFollowUser = async (id, loggedInUserId) => {
   try {
-    const response = await axios.delete(
+    const response = await axios.post(
       `/user/unfollow/${id}`,
       { id: loggedInUserId },
       { withCredentials: true }

@@ -41,7 +41,7 @@ const Profile = () => {
         dispatch(showLoading());
         const res = await unFollowUser(id, user?._id);
         if (res.success) {
-          dispatch(followingUpdate(id))
+          dispatch(followingUpdate(id));
           dispatch(hideLoading());
           toast.success(res.message);
         }
@@ -57,6 +57,7 @@ const Profile = () => {
         const res = await followUser(id, user?._id);
         if (res.success) {
           dispatch(hideLoading());
+          dispatch(followingUpdate(id));
           toast.success(res.message);
           dispatch(setRefresh());
         }
