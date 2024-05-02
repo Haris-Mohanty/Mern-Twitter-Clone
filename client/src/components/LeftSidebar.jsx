@@ -6,11 +6,39 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { CiUser } from "react-icons/ci";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { CiLogout } from "react-icons/ci";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { hideLoading, showLoading } from "../redux/spinnerSlice";
+import toast from "react-hot-toast";
+import { logout } from "../api/api";
+import { setOtherUsers, setProfile, setUser } from "../redux/userSlice";
+import { setAllTweets } from "../redux/tweetSlice";
 
 const LeftSidebar = () => {
   const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //Logout
+  const logoutHandler = async () => {
+    try {
+      dispatch(showLoading());
+      const res = await logout();
+      if (res.success) {
+        dispatch(hideLoading());
+        dispatch(setUser(null));
+        dispatch(setOtherUsers(null));
+        dispatch(setProfile(null));
+        dispatch(setAllTweets(null));
+        toast.success(res.message);
+        navigate("/login");
+      }
+    } catch (err) {
+      dispatch(hideLoading());
+      toast.error(err.response.data.message);
+    }
+  };
+
   return (
     <>
       <div className="w-[25%]">
@@ -58,13 +86,13 @@ const LeftSidebar = () => {
             <IoBookmarksOutline size={"24px"} />
             <h1 className="font-semibold text-lg ml-2">Bookmarks</h1>
           </Link>
-          <Link
-            to={"/logout"}
+          <div
+            onClick={logoutHandler}
             className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer"
           >
             <CiLogout size={"24px"} />
             <h1 className="font-semibold text-lg ml-2">Logout</h1>
-          </Link>
+          </div>
           <button className="px-4 py-2 border-none text-md bg-[#109BF0] w-[70%] rounded-full text-white font-bold">
             Post
           </button>
