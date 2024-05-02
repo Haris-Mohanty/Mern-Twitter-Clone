@@ -7,12 +7,21 @@ import { showLoading, hideLoading } from "../redux/spinnerSlice";
 import { getAllTweets, getOtherUsers } from "../api/api";
 import { setOtherUsers } from "../redux/userSlice";
 import { setAllTweets } from "../redux/tweetSlice";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
   const { refresh } = useSelector((state) => state.tweets);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [otherUser, setOtherUser] = useState([]);
+
+  //If user is not available, redirect to login page
+  const checkUserIsAvailableOrNot = () => {
+    if (!user) {
+      navigate("/login");
+    }
+  };
 
   //Get other users
   const fetchOtherUsers = async () => {
@@ -50,6 +59,7 @@ const Home = () => {
   useEffect(() => {
     fetchOtherUsers();
     fetchAllTweets();
+    checkUserIsAvailableOrNot();
     //eslint-disable-next-line
   }, [refresh]);
 
