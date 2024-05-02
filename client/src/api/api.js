@@ -226,3 +226,13 @@ export const bookmarkTweet = async (id, loggedInUserId) => {
     throw err;
   }
 };
+
+//********** LOGOUT **************/
+export const logout = async () => {
+  try {
+    const response = await axios.get("/user/logout");
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
