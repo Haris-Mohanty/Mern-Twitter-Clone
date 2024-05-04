@@ -3,7 +3,6 @@ import { userSlice } from "./userSlice";
 import { spinnerSlice } from "./spinnerSlice";
 import { tweetSlice } from "./tweetSlice";
 import {
-  persistStore,
   persistReducer,
   FLUSH,
   REHYDRATE,

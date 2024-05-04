@@ -90,7 +90,7 @@ const CreatePost = () => {
               <div className="flex items-center p-4">
                 <div>
                   <Avatar
-                    src="https://pbs.twimg.com/profile_images/1676844366659457024/1qiyi4zB_400x400.jpg"
+                    src="https://static.dezeen.com/uploads/2023/07/x-logo-twitter-elon-musk_dezeen_2364_col_0.jpg"
                     size="40"
                     round={true}
                   />

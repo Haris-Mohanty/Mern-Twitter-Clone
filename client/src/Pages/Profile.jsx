@@ -100,7 +100,7 @@ const Profile = () => {
             />
             <div className="absolute top-56 ml-4 border-4 border-white rounded-full">
               <Avatar
-                src="https://pbs.twimg.com/profile_images/1676844366659457024/1qiyi4zB_400x400.jpg"
+                src="https://static.dezeen.com/uploads/2023/07/x-logo-twitter-elon-musk_dezeen_2364_col_0.jpg"
                 size="120"
                 round={true}
               />
