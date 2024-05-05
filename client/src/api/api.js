@@ -236,3 +236,20 @@ export const logout = async () => {
     throw err;
   }
 };
+
+//********** SEARCH USER BY NAME **************/
+export const searchUserByName = async (query) => {
+  try {
+    const response = await axios.get(`/user/search-user?name=${query}`, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
