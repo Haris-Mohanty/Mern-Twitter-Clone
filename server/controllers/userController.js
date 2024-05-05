@@ -425,4 +425,25 @@ export const getFollowingTweets = async (req, res) => {
 };
 
 //********* SEARCH USER BY NAME ***********/
-export const searchUser = async (req, res) => {};
+export const searchUserByName = async (req, res) => {
+  try {
+    const { name } = req.query;
+
+    const regexPattern = new RegExp(`^${name}`, "i");
+
+    const user = await userModel.find({
+      name: { $regex: regexPattern },
+    });
+
+    return res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};

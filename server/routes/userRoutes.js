@@ -10,6 +10,7 @@ import {
   unFollow,
   getAllTweets,
   getFollowingTweets,
+  searchUserByName,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -48,7 +49,7 @@ router.get("/get-tweets/:id", authMiddleware, getAllTweets);
 router.get("/following-tweets/:id", authMiddleware, getFollowingTweets);
 
 //Search User By Name
-router.get("/search-user", authMiddleware, searchUser);
+router.get("/search-user", authMiddleware, searchUserByName);
 
 //Export
 export default router;
