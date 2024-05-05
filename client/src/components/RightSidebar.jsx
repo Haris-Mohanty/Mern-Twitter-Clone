@@ -1,11 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import { searchUserByName } from "../api/api";
 
 const RightSidebar = ({ otherUser }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
   // Showing Users upto 3
   const showOtherUsers = otherUser ? otherUser.slice(0, 3) : [];
+
+  // Fetch users
+  const fetchUsers = async () => {
+    try {
+      let results = [];
+      if (searchQuery) {
+        const response = await searchUserByName(searchQuery);
+        results = response.user;
+      } else {
+        results = showOtherUsers;
+      }
+
+      setSearchResults(results);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+    //eslint-disable-next-line
+  }, [searchQuery]);
 
   return (
     <>
@@ -15,12 +41,14 @@ const RightSidebar = ({ otherUser }) => {
           <input
             type="text"
             className="bg-transparent outline-none px-2"
-            placeholder="Search"
+            placeholder="Search User"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
         <div className="p-4 my-4 bg-gray-100 rounded-2xl">
           <h1 className="font-bold text-lg">Who to follow</h1>
-          {showOtherUsers?.map((user) => (
+          {searchResults?.map((user) => (
             <div key={user?._id} className="flex ic justify-between my-3">
               <div className="flex">
                 <div>
