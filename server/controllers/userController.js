@@ -397,7 +397,7 @@ export const getAllTweets = async (req, res) => {
   }
 };
 
-//********* GET FOLLOWING USER TWEETS *******/
+//********* GET FOLLOWING USER TWEETS ***********/
 export const getFollowingTweets = async (req, res) => {
   try {
     const id = req.params.id;
@@ -423,3 +423,6 @@ export const getFollowingTweets = async (req, res) => {
     });
   }
 };
+
+//********* SEARCH USER BY NAME ***********/
+export const searchUser = async (req, res) => {};

@@ -47,5 +47,8 @@ router.get("/get-tweets/:id", authMiddleware, getAllTweets);
 //Get following tweets
 router.get("/following-tweets/:id", authMiddleware, getFollowingTweets);
 
+//Search User By Name
+router.get("/search-user", authMiddleware, searchUser);
+
 //Export
 export default router;
