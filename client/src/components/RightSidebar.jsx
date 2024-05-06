@@ -3,10 +3,13 @@ import Avatar from "react-avatar";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { searchUserByName } from "../api/api";
+import { useDispatch } from "react-redux";
+import { hideLoading, showLoading } from "../redux/spinnerSlice";
 
 const RightSidebar = ({ otherUser }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const dispatch = useDispatch();
 
   // Showing Users upto 3
   const showOtherUsers = otherUser ? otherUser.slice(0, 3) : [];
@@ -16,7 +19,9 @@ const RightSidebar = ({ otherUser }) => {
     try {
       let results = [];
       if (searchQuery) {
+        dispatch(showLoading());
         const response = await searchUserByName(searchQuery);
+        dispatch(hideLoading());
         results = response.user;
       } else {
         results = showOtherUsers;
@@ -24,6 +29,7 @@ const RightSidebar = ({ otherUser }) => {
 
       setSearchResults(results);
     } catch (err) {
+      dispatch(hideLoading());
       console.log(err);
     }
   };

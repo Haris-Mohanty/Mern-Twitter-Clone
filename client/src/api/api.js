@@ -253,3 +253,24 @@ export const searchUserByName = async (query) => {
     throw err;
   }
 };
+
+//********** ADD USER BIO **************/
+export const addUserBio = async (id, bio) => {
+  try {
+    const response = await axios.post(
+      `/user/add-bio/${id}`,
+      { bio },
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};

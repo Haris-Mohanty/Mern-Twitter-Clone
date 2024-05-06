@@ -6,7 +6,12 @@ import { Link, useParams } from "react-router-dom";
 import Avatar from "react-avatar";
 import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/spinnerSlice";
-import { followUser, getUserProfile, unFollowUser } from "../api/api";
+import {
+  addUserBio,
+  followUser,
+  getUserProfile,
+  unFollowUser,
+} from "../api/api";
 import { followingUpdate, setProfile } from "../redux/userSlice";
 import { setRefresh } from "../redux/tweetSlice";
 import toast from "react-hot-toast";
@@ -14,6 +19,7 @@ import toast from "react-hot-toast";
 const Profile = () => {
   const { user, profile, otherUsers } = useSelector((state) => state.user);
   const [users, setUsers] = useState(null);
+  const [bio, setBio] = useState("");
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -65,6 +71,23 @@ const Profile = () => {
         dispatch(hideLoading());
         toast.error(err.response.data.message);
       }
+    }
+  };
+
+  //************ ADD USER BIO *******/
+  const addBioHandler = async () => {
+    try {
+      dispatch(showLoading());
+      const res = await addUserBio(id, bio);
+
+      if (res.success) {
+        dispatch(setProfile(res.user));
+        dispatch(hideLoading());
+        toast.success(res.message);
+      }
+    } catch (err) {
+      dispatch(hideLoading());
+      toast.error(err.response.data.message);
     }
   };
 
@@ -123,13 +146,37 @@ const Profile = () => {
               <h1 className="font-bold text-xl mt-5">{users?.name}</h1>
               <p>@{users?.username}</p>
             </div>
-            <div className="m-3 text-sm">
-              {profile?.bio ? (
-                <p className="mt-5">{profile?.bio}</p>
-              ) : (
-                <button className="mt-5">Add Bio</button>
-              )}
-            </div>
+
+            {/******  ADD BIO *********/}
+            {profile && (
+              <div className="m-3 text-sm">
+                {user?._id === profile._id ? (
+                  profile?.bio ? (
+                    <p>{profile?.bio}</p>
+                  ) : (
+                    <div className="mt-5">
+                      <input
+                        type="text"
+                        placeholder="Write your bio"
+                        className="mr-2 px-2 py-1 border border-gray-300 rounded-lg w-[86%]"
+                        value={bio}
+                        onChange={(e) => setBio(e.target.value)}
+                      />
+                      <button
+                        onClick={addBioHandler}
+                        className="px-4 py-1 bg-black text-white rounded-lg"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  )
+                ) : (
+                  <div className="mt-5">
+                    <p>{profile?.bio ? profile.bio : "No Bio"}</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <RightSidebar otherUser={otherUsers} />
