@@ -2,7 +2,7 @@ import React from "react";
 import Avatar from "react-avatar";
 import { FaRegComment } from "react-icons/fa";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { FaRegBookmark } from "react-icons/fa";
+import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { hideLoading, showLoading } from "../redux/spinnerSlice";
@@ -59,6 +59,10 @@ const Tweet = ({ tweet }) => {
   };
 
   const userLikedTweet = tweet.like.some((like) => like === user?._id);
+  const userBookmrkedTweet = tweet.bookmarks.some(
+    (bookmark) => bookmark === user?._id
+  );
+
   return (
     <>
       <div className="border-b border-gray-200">
@@ -104,11 +108,17 @@ const Tweet = ({ tweet }) => {
                 <div className="flex items-center ">
                   <div
                     onClick={() => bookmarkTweetHandler(tweet?._id)}
-                    className="p-2 rounded-full hover:bg-blue-100 cursor-pointer"
+                    className={`p-2 rounded-full hover:bg-blue-100 cursor-pointer ${
+                      userBookmrkedTweet ? "p-0 mx-1" : "hover:bg-blue-200"
+                    }`}
                   >
-                    <FaRegBookmark />
+                    {userBookmrkedTweet ? (
+                      <FaBookmark color="blue" />
+                    ) : (
+                      <FaRegBookmark color="inherit" />
+                    )}
                   </div>
-                  <p>{user?.bookmarks?.length}</p>
+                  <p>{tweet?.bookmarks?.length}</p>
                 </div>
                 {user?._id === tweet?.userId?._id && (
                   <div className="flex items-center ">

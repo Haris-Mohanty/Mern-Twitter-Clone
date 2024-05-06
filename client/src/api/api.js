@@ -210,7 +210,7 @@ export const unFollowUser = async (id, loggedInUserId) => {
 export const bookmarkTweet = async (id, loggedInUserId) => {
   try {
     const response = await axios.put(
-      `/user/bookmark/${id}`,
+      `/tweet/bookmark/${id}`,
       { id: loggedInUserId },
       {
         withCredentials: true,
