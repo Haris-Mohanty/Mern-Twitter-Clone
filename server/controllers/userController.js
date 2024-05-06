@@ -409,3 +409,44 @@ export const searchUserByName = async (req, res) => {
     });
   }
 };
+
+//************* ADD BIO ***********/
+export const addBio = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { bio } = req.body;
+
+    if (!bio) {
+      return res.status(422).json({
+        success: false,
+        message: "Please add bio!",
+      });
+    }
+
+    // Find user
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User Not Found!",
+      });
+    }
+
+    //Update user bio
+    user.bio = bio;
+    await user.save();
+
+    //Success res
+    return res.status(200).json({
+      success: true,
+      message: "Bio Added Successfully!",
+      user,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};

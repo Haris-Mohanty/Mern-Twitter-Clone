@@ -120,16 +120,15 @@ const Profile = () => {
               )}
             </div>
             <div className="m-3">
-              <h1 className="font-bold text-xl">{users?.name}</h1>
+              <h1 className="font-bold text-xl mt-5">{users?.name}</h1>
               <p>@{users?.username}</p>
             </div>
             <div className="m-3 text-sm">
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet
-                cumque harum, facere quo tenetur dolores ab neque error
-                perferendis, iure inventore reprehenderit laudantium natus
-                voluptas eveniet.
-              </p>
+              {profile?.bio ? (
+                <p className="mt-5">{profile?.bio}</p>
+              ) : (
+                <button className="mt-5">Add Bio</button>
+              )}
             </div>
           </div>
         </div>
