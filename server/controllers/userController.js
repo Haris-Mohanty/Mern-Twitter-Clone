@@ -173,44 +173,6 @@ export const logoutUser = (req, res) => {
   }
 };
 
-//********** BOOKMARK ********/
-export const bookmark = async (req, res) => {
-  try {
-    const loggedInUserId = req.body.id;
-    const tweetId = req.params.id;
-    const user = await userModel.findById(loggedInUserId);
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found!",
-      });
-    }
-
-    if (user.bookmarks.includes(tweetId)) {
-      // Remove from bookmark
-      await userModel.findByIdAndUpdate(loggedInUserId, {
-        $pull: { bookmarks: tweetId },
-      });
-      return res.status(200).json({
-        message: "Removed from bookmark successfully!",
-      });
-    } else {
-      // add to bookmark
-      await userModel.findByIdAndUpdate(loggedInUserId, {
-        $push: { bookmarks: tweetId },
-      });
-      return res.status(200).json({
-        message: "Add to bookmark successfully!",
-      });
-    }
-  } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Internal Server Error!",
-      error: err.message,
-    });
-  }
-};
-
 //************* GET PROFILE DETAILS ***********/
 export const getProfileDetails = async (req, res) => {
   try {

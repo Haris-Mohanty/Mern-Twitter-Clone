@@ -104,3 +104,43 @@ export const likeOrDislike = async (req, res) => {
     });
   }
 };
+
+
+//********** BOOKMARK ********/
+export const bookmark = async (req, res) => {
+  try {
+    const loggedInUserId = req.body.id;
+    const tweetId = req.params.id;
+    const tweet = await tweetModel.findById(tweetId)
+    if (!tweet) {
+      return res.status(404).json({
+        message: "Tweet not found",
+        success: false,
+      });
+    }
+
+    if (tweet.bookmarks.includes(loggedInUserId)) {
+      // Remove from bookmark
+      await tweetModel.findByIdAndUpdate(tweetId, {
+        $pull: { bookmarks: loggedInUserId },
+      });
+      return res.status(200).json({
+        message: "Removed from bookmark successfully!",
+      });
+    } else {
+      // add to bookmark
+      await tweetModel.findByIdAndUpdate(tweetId, {
+        $push: { bookmarks: loggedInUserId },
+      });
+      return res.status(200).json({
+        message: "Add to bookmark successfully!",
+      });
+    }
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};

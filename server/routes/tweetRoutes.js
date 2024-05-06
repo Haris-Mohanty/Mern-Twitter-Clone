@@ -3,6 +3,7 @@ import {
   createTweet,
   deleteTweet,
   likeOrDislike,
+  bookmark,
 } from "../controllers/tweetController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -17,6 +18,9 @@ router.delete("/delete-tweet/:id", authMiddleware, deleteTweet);
 
 //Like & dislike
 router.put("/like/:id", authMiddleware, likeOrDislike);
+
+//Bookmarks
+router.put("/bookmark/:id", authMiddleware, bookmark);
 
 //Export
 export default router;
