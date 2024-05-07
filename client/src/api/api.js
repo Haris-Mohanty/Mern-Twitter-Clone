@@ -274,3 +274,20 @@ export const addUserBio = async (id, bio) => {
     throw err;
   }
 };
+
+//******* SHOW TOTAL POST OF USER ***********/
+export const totalPostOfUser = async (id) => {
+  try {
+    const response = await axios.get(`/user/totalPost/${id}`, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};

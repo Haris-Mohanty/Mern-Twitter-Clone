@@ -10,6 +10,7 @@ import {
   addUserBio,
   followUser,
   getUserProfile,
+  totalPostOfUser,
   unFollowUser,
 } from "../api/api";
 import { followingUpdate, setProfile } from "../redux/userSlice";
@@ -21,6 +22,7 @@ const Profile = () => {
   const { user, profile, otherUsers } = useSelector((state) => state.user);
   const [users, setUsers] = useState(null);
   const [bio, setBio] = useState("");
+  const [totalPost, setTotalPost] = useState("");
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -91,9 +93,24 @@ const Profile = () => {
       toast.error(err.response.data.message);
     }
   };
+  //******** FETCH TOTAL POST OF USER *******/
+  const fetchTotalPost = async () => {
+    try {
+      dispatch(showLoading());
+      const res = await totalPostOfUser(id);
+      if (res.success) {
+        dispatch(hideLoading());
+        setTotalPost(res.totalTweets);
+      }
+    } catch (err) {
+      dispatch(hideLoading());
+      toast.error(err.response.data.message);
+    }
+  };
 
   useEffect(() => {
     getUserProfileDetails();
+    fetchTotalPost();
     //eslint-disable-next-line
   }, []);
 
@@ -112,7 +129,7 @@ const Profile = () => {
               </Link>
               <div className="ml-2">
                 <h1 className="font-bold text-lg">{users?.name}</h1>
-                <p className="text-gray-500 text-sm">10 posts</p>
+                <p className="text-gray-500 text-sm">{totalPost} Posts</p>
               </div>
             </div>
             <img
