@@ -15,6 +15,7 @@ import {
 import { followingUpdate, setProfile } from "../redux/userSlice";
 import { setRefresh } from "../redux/tweetSlice";
 import toast from "react-hot-toast";
+import { FiUsers, FiUserPlus } from "react-icons/fi";
 
 const Profile = () => {
   const { user, profile, otherUsers } = useSelector((state) => state.user);
@@ -118,7 +119,7 @@ const Profile = () => {
               src={
                 "https://png.pngtree.com/thumb_back/fh260/background/20230707/pngtree-bare-wooden-table-surrounded-by-blurred-winter-wonderland-perfect-for-3d-image_3791056.jpg"
               }
-              className="h-[39%] w-[100%]"
+              className="h-[34%] w-[100%]"
               alt="banner"
             />
             <div className="absolute top-56 ml-4 border-4 border-white rounded-full">
@@ -145,6 +146,31 @@ const Profile = () => {
             <div className="m-3">
               <h1 className="font-bold text-xl mt-5">{users?.name}</h1>
               <p>@{users?.username}</p>
+            </div>
+
+            {/******* FOLLOWER AND FOLLOWING ******/}
+            <div className="flex items-center justify-between bg-gray-100 p-4 rounded-lg">
+              {/* Followers */}
+              <div className="flex items-center">
+                <FiUsers className="text-blue-500 text-2xl mr-2" />
+                <div>
+                  <h3 className="font-bold">Followers</h3>
+                  <p className="text-gray-600">
+                    {profile?.followers.length} Followers
+                  </p>
+                </div>
+              </div>
+
+              {/* Following */}
+              <div className="flex items-center">
+                <FiUserPlus className="text-blue-500 text-2xl mr-2" />
+                <div>
+                  <h3 className="font-bold">Following</h3>
+                  <p className="text-gray-600">
+                    {profile?.following.length} Following
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/******  ADD BIO *********/}
