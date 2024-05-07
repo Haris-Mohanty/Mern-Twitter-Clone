@@ -450,3 +450,31 @@ export const addBio = async (req, res) => {
     });
   }
 };
+
+//*************** TOTAL POST OF USER *************/
+export const totalPostOfUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await userModel.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User Not Found!",
+      });
+    }
+
+    const tweets = await tweetModel.find({ userId: id });
+
+    //Success Res
+    return res.status(200).json({
+      success: true,
+      totalTweets: tweets.length,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};
