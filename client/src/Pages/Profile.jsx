@@ -17,12 +17,15 @@ import { followingUpdate, setProfile } from "../redux/userSlice";
 import { setRefresh } from "../redux/tweetSlice";
 import toast from "react-hot-toast";
 import { FiUsers, FiUserPlus } from "react-icons/fi";
+import ModalForm from "../components/ModalForm";
 
 const Profile = () => {
   const { user, profile, otherUsers } = useSelector((state) => state.user);
   const [users, setUsers] = useState(null);
   const [bio, setBio] = useState("");
   const [totalPost, setTotalPost] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState("");
+
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -115,6 +118,16 @@ const Profile = () => {
     //eslint-disable-next-line
   }, []);
 
+  // Open Modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Close Modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       <div className="flex justify-between w-[80%] mx-auto">
@@ -149,7 +162,10 @@ const Profile = () => {
             </div>
             <div className="text-right m-3">
               {user?._id === profile?._id ? (
-                <button className="px-4 py-1 rounded-full border border-gray-400 hover:bg-gray-200">
+                <button
+                  onClick={openModal}
+                  className="px-4 py-1 rounded-full border border-gray-400 hover:bg-gray-200"
+                >
                   Edit Profile
                 </button>
               ) : (
@@ -160,6 +176,14 @@ const Profile = () => {
                   {user?.following.includes(id) ? "Following" : "Follow"}
                 </button>
               )}
+
+
+              {/************ MODAL FORM FOR USER PROFILE DETAILS UPDATE ******/}
+              {isModalOpen && (
+                  <ModalForm
+                  closeModal={closeModal}
+                  />
+                )}
             </div>
             <div className="m-3">
               <h1 className="font-bold text-xl mt-5">{users?.name}</h1>
