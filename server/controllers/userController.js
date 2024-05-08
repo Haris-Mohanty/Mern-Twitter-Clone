@@ -479,3 +479,36 @@ export const totalPostOfUser = async (req, res) => {
     });
   }
 };
+
+//************ UPDATE USER PROFILE DETAILS **********/
+export const updateUserProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, bio } = req.body;
+
+    const updatedUser = await userModel.findByIdAndUpdate(
+      id,
+      { name, bio },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    //Success
+    return res.status(200).json({
+      success: true,
+      user: updatedUser,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};

@@ -12,6 +12,7 @@ import {
   searchUserByName,
   addBio,
   totalPostOfUser,
+  updateUserProfile,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -54,6 +55,9 @@ router.post("/add-bio/:id", authMiddleware, addBio);
 
 //Total post of user
 router.get("/totalPost/:id", authMiddleware, totalPostOfUser);
+
+//Update Profile
+router.put("/update-profile/:id", authMiddleware, updateUserProfile);
 
 //Export
 export default router;
