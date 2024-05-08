@@ -17,9 +17,11 @@ import { followingUpdate, setProfile } from "../redux/userSlice";
 import { setRefresh } from "../redux/tweetSlice";
 import toast from "react-hot-toast";
 import { FiUsers, FiUserPlus } from "react-icons/fi";
+import Tweet from "../components/Tweet";
 
 const Profile = () => {
   const { user, profile, otherUsers } = useSelector((state) => state.user);
+  const { tweets } = useSelector((state) => state.tweets);
   const [users, setUsers] = useState(null);
   const [bio, setBio] = useState("");
   const [totalPost, setTotalPost] = useState("");
@@ -137,7 +139,7 @@ const Profile = () => {
               src={
                 "https://png.pngtree.com/thumb_back/fh260/background/20230707/pngtree-bare-wooden-table-surrounded-by-blurred-winter-wonderland-perfect-for-3d-image_3791056.jpg"
               }
-              className="h-[34%] w-[100%]"
+              className="h-[17%] w-[100%]"
               alt="banner"
             />
             <div className="absolute top-56 ml-4 border-4 border-white rounded-full">
@@ -221,6 +223,11 @@ const Profile = () => {
                 )}
               </div>
             )}
+          </div>
+          <div>
+            {tweets?.map((tweet) => (
+              <Tweet key={tweet?._id} tweet={tweet} />
+            ))}
           </div>
         </div>
         <RightSidebar otherUser={otherUsers} />

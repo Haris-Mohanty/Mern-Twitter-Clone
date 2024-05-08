@@ -468,6 +468,7 @@ export const totalPostOfUser = async (req, res) => {
     //Success Res
     return res.status(200).json({
       success: true,
+      tweets,
       totalTweets: tweets.length,
     });
   } catch (err) {

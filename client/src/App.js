@@ -6,6 +6,7 @@ import Profile from "./Pages/Profile";
 import Login from "./Pages/Login";
 import { Toaster } from "react-hot-toast";
 import Spinner from "./components/Spinner";
+import Bookmarks from "./Pages/Bookmarks";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/bookmarks" element={<Bookmarks />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
