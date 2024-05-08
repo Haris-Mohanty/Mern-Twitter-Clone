@@ -4,6 +4,7 @@ import {
   deleteTweet,
   likeOrDislike,
   bookmark,
+  showBookmarksOfUser,
 } from "../controllers/tweetController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -21,6 +22,9 @@ router.put("/like/:id", authMiddleware, likeOrDislike);
 
 //Bookmarks
 router.put("/bookmark/:id", authMiddleware, bookmark);
+
+//Show Bookmarks of user
+router.get("/show-bookmarks-of-user/:id", authMiddleware, showBookmarksOfUser);
 
 //Export
 export default router;

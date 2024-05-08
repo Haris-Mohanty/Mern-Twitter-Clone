@@ -105,13 +105,12 @@ export const likeOrDislike = async (req, res) => {
   }
 };
 
-
-//********** BOOKMARK ********/
+//************** BOOKMARK ******************/
 export const bookmark = async (req, res) => {
   try {
     const loggedInUserId = req.body.id;
     const tweetId = req.params.id;
-    const tweet = await tweetModel.findById(tweetId)
+    const tweet = await tweetModel.findById(tweetId);
     if (!tweet) {
       return res.status(404).json({
         message: "Tweet not found",
@@ -136,6 +135,35 @@ export const bookmark = async (req, res) => {
         message: "Add to bookmark successfully!",
       });
     }
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};
+
+//********** SHOW BOOKMARK OF USER *************/
+export const showBookmarksOfUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Get Bookmarks
+    const bookmarks = await tweetModel.find({ bookmarks: id });
+
+    if (!bookmarks || bookmarks.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No Bookmark Found!",
+      });
+    }
+
+    //Success
+    return res.status(200).json({
+      success: true,
+      bookmarks,
+    });
   } catch (err) {
     return res.status(500).json({
       success: false,

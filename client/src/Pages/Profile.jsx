@@ -93,6 +93,7 @@ const Profile = () => {
       toast.error(err.response.data.message);
     }
   };
+
   //******** FETCH TOTAL POST OF USER *******/
   const fetchTotalPost = async () => {
     try {
