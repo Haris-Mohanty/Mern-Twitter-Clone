@@ -308,3 +308,22 @@ export const showBookmarksOfUser = async (id) => {
     throw err;
   }
 };
+
+//******* UPDATE USER PROFILE DETAILS ***********/
+export const updateUserProfile = async (id, name, bio) => {
+  try {
+    const response = await axios.put(
+      `/user/update-profile/${id}`,
+      { name, bio },
+      { withCredentials: true }
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
