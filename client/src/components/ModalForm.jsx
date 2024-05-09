@@ -1,6 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { hideLoading, showLoading } from "../redux/spinnerSlice";
+import { updateUserProfile } from "../api/api";
+import toast from "react-hot-toast";
 
-const ModalForm = ({ closeModal }) => {
+const ModalForm = ({ closeModal, profile, setProfile, setRefresh }) => {
+  const dispatch = useDispatch();
+  const [name, setName] = useState(profile?.name || "");
+  const [bio, setBio] = useState(profile?.bio || "");
+
+  //******** UPDATE USER PROFILE *****/
+  const updateProfileHandler = async (e) => {
+    try {
+      e.preventDefault();
+      dispatch(showLoading());
+      const res = await updateUserProfile(profile?._id, name, bio);
+      if (res.success) {
+        dispatch(hideLoading());
+        dispatch(setProfile(res.user));
+        toast.success("Profile Details Updated Successfully!");
+        closeModal();
+        dispatch(setRefresh());
+      }
+    } catch (err) {
+      dispatch(hideLoading());
+      toast.err(err.response.data.message);
+    }
+  };
+
   return (
     <>
       <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -20,11 +47,11 @@ const ModalForm = ({ closeModal }) => {
             aria-modal="true"
             aria-labelledby="modal-headline"
           >
-            <form>
+            <form onSubmit={updateProfileHandler}>
               <div className="sm:flex sm:items-start">
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                   <h3
-                    className="text-lg leading-6 font-medium text-gray-900"
+                    className="text-lg leading-6 font-medium text-gray-900 text-center"
                     id="modal-headline"
                   >
                     Edit Profile
@@ -42,7 +69,9 @@ const ModalForm = ({ closeModal }) => {
                           type="text"
                           name="name"
                           id="name"
-                          className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="shadow-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-xs border-gray-500 rounded-md p-2"
                         />
                       </div>
                     </div>
@@ -58,14 +87,16 @@ const ModalForm = ({ closeModal }) => {
                           id="bio"
                           name="bio"
                           rows="3"
-                          className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                          value={bio}
+                          onChange={(e) => setBio(e.target.value)}
+                          className="shadow-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-xs border-gray-500 rounded-md p-2"
                         ></textarea>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+              <div className="mt-2 sm:mt-4 sm:flex sm:flex-row-reverse">
                 <button
                   type="submit"
                   className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
@@ -73,8 +104,8 @@ const ModalForm = ({ closeModal }) => {
                   Save
                 </button>
                 <button
-                  onClick={closeModal}
                   type="button"
+                  onClick={closeModal}
                   className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Cancel

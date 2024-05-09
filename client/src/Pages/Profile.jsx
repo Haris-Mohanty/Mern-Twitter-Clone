@@ -142,7 +142,7 @@ const Profile = () => {
                 <IoMdArrowBack size={"24px"} />
               </Link>
               <div className="ml-2">
-                <h1 className="font-bold text-lg">{users?.name}</h1>
+                <h1 className="font-bold text-lg">{profile?.name}</h1>
                 <p className="text-gray-500 text-sm">{totalPost} Posts</p>
               </div>
             </div>
@@ -177,16 +177,18 @@ const Profile = () => {
                 </button>
               )}
 
-
               {/************ MODAL FORM FOR USER PROFILE DETAILS UPDATE ******/}
               {isModalOpen && (
-                  <ModalForm
+                <ModalForm
                   closeModal={closeModal}
-                  />
-                )}
+                  profile={profile}
+                  setProfile={setProfile}
+                  setRefresh={setRefresh}
+                />
+              )}
             </div>
             <div className="m-3">
-              <h1 className="font-bold text-xl mt-5">{users?.name}</h1>
+              <h1 className="font-bold text-xl mt-5">{profile?.name}</h1>
               <p>@{users?.username}</p>
             </div>
 
