@@ -28,6 +28,14 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    seenNotifications: {
+      type: Array,
+      default: [],
+    },
+    unSeenNotifications: {
+      type: Array,
+      default: [],
+    },
     bio: {
       type: "String",
       default: "",

@@ -241,6 +241,8 @@ export const followUser = async (req, res) => {
         message: "User not exists!",
       });
     }
+    console.log(userToFollow);
+    return false;
 
     //Check the user is already followed or not
     const alreadyFollowing = userToFollow.followers.includes(loggedInUserId);

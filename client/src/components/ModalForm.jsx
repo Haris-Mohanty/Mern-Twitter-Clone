@@ -86,7 +86,7 @@ const ModalForm = ({ closeModal, profile, setProfile, setRefresh }) => {
                         <textarea
                           id="bio"
                           name="bio"
-                          rows="3"
+                          rows="4"
                           value={bio}
                           onChange={(e) => setBio(e.target.value)}
                           className="shadow-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-xs border-gray-500 rounded-md p-2"
