@@ -241,8 +241,9 @@ export const followUser = async (req, res) => {
         message: "User not exists!",
       });
     }
-    console.log(userToFollow);
-    return false;
+
+    // Logged in user Deatils
+    const loggedInUser = await userModel.findById(loggedInUserId);
 
     //Check the user is already followed or not
     const alreadyFollowing = userToFollow.followers.includes(loggedInUserId);
@@ -262,6 +263,15 @@ export const followUser = async (req, res) => {
     await userModel.findByIdAndUpdate(loggedInUserId, {
       $push: { following: userToFollowId },
     });
+
+    //Push Notification to user
+    const unSeenNotifications = userToFollow.unSeenNotifications;
+    unSeenNotifications.push({
+      type: "user-follow-request",
+      message: `${loggedInUser.name} started following you`,
+      onClickPath: "/profile",
+    });
+    await userModel.findByIdAndUpdate(userToFollowId, { unSeenNotifications });
 
     //Success Response
     return res.status(200).json({
