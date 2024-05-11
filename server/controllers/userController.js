@@ -525,3 +525,45 @@ export const updateUserProfile = async (req, res) => {
     });
   }
 };
+
+//************ MARK ALL NOTIFICATIONS AS SEEN ******************/
+export const markAllNotificationsAsSeen = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const user = await userModel.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User Not Found!",
+      });
+    }
+
+    //Get un seen notifications
+    const unSeenNotifications = user.unSeenNotifications;
+
+    //Appen un seen notifications array to seen notifications array
+    user.seenNotifications.push(...unSeenNotifications);
+
+    // Clear un seen notifications array
+    user.unSeenNotifications = [];
+
+    //Save the updated user
+    const updatedUser = await user.save();
+
+    //Password hide
+    updatedUser.password = undefined;
+
+    //Success res
+    return res.status(200).json({
+      success: true,
+      message: "All notifications marked as seen!",
+      updatedUser,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};

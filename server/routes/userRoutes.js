@@ -13,6 +13,7 @@ import {
   addBio,
   totalPostOfUser,
   updateUserProfile,
+  markAllNotificationsAsSeen,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -58,6 +59,13 @@ router.get("/totalPost/:id", authMiddleware, totalPostOfUser);
 
 //Update Profile
 router.put("/update-profile/:id", authMiddleware, updateUserProfile);
+
+// Mark all notifications as seen
+router.post(
+  "/mark-all-notifications-as-seen",
+  authMiddleware,
+  markAllNotificationsAsSeen
+);
 
 //Export
 export default router;

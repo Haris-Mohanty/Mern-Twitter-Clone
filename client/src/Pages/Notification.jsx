@@ -3,7 +3,7 @@ import LeftSidebar from "../components/LeftSidebar";
 import RightSidebar from "../components/RightSidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { hideLoading, showLoading } from "../redux/spinnerSlice";
-import { getUserProfile } from "../api/api";
+import { getUserProfile, markAllNotificationsAsSeen } from "../api/api";
 import { setUser } from "../redux/userSlice";
 import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
@@ -14,6 +14,7 @@ const Notification = () => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("unSeen");
 
+  // *********** USER PROFILE DETAILS FETCH ********/
   const fetchUserProfileDetails = async () => {
     try {
       dispatch(showLoading());
@@ -21,6 +22,22 @@ const Notification = () => {
       if (res.success) {
         dispatch(hideLoading());
         dispatch(setUser(res.user));
+      }
+    } catch (err) {
+      dispatch(hideLoading());
+      toast.error(err.response.data.message);
+    }
+  };
+
+  // ********* MARK ALL NOTIFICATIONS AS SEEN **********/
+  const handleMarkAllNotificationsAsSeen = async () => {
+    try {
+      dispatch(showLoading());
+      const res = await markAllNotificationsAsSeen(user?._id);
+      if (res.success) {
+        dispatch(hideLoading());
+        dispatch(setUser(res.updatedUser));
+        toast.success(res.message);
       }
     } catch (err) {
       dispatch(hideLoading());
@@ -77,7 +94,10 @@ const Notification = () => {
             {/****  MARK ALL AS SEEN AND DELETE ALL SEEN NOTIFICATIONS  *****/}
             <div className="flex justify-end space-x-4 mb-3">
               {activeTab === "unSeen" && (
-                <button className="text-sm text-blue-500 font-semibold">
+                <button
+                  onClick={handleMarkAllNotificationsAsSeen}
+                  className="text-sm text-blue-500 font-semibold"
+                >
                   Mark all as seen
                 </button>
               )}
@@ -92,12 +112,9 @@ const Notification = () => {
               {/************ NOTIFICATIONS *****************/}
               {filteredNotifications
                 ?.slice(0)
-                .reverse()
-                .map((notifications) => (
-                  <div
-                    key={notifications?.data?.loggedInUser._id}
-                    className="flex items-center space-x-2"
-                  >
+                .reverse() // Reverse the array for showing latest notifications first
+                .map((notifications, index) => (
+                  <div key={index} className="flex items-center space-x-2">
                     <Avatar
                       src="https://static.dezeen.com/uploads/2023/07/x-logo-twitter-elon-musk_dezeen_2364_col_0.jpg"
                       size="45"

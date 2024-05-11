@@ -327,3 +327,22 @@ export const updateUserProfile = async (id, name, bio) => {
     throw err;
   }
 };
+
+//******* MARK ALL NOTIFICATIONS AS SEEN ***********/
+export const markAllNotificationsAsSeen = async (id) => {
+  try {
+    const response = await axios.post(
+      "/user/mark-all-notifications-as-seen",
+      { id },
+      { withCredentials: true }
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
