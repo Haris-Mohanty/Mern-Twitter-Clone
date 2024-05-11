@@ -268,6 +268,7 @@ export const followUser = async (req, res) => {
     const unSeenNotifications = userToFollow.unSeenNotifications;
     unSeenNotifications.push({
       type: "user-follow-request",
+      data: { loggedInUser },
       message: `${loggedInUser.name} started following you`,
       onClickPath: "/profile",
     });
