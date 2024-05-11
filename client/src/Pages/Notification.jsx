@@ -3,7 +3,11 @@ import LeftSidebar from "../components/LeftSidebar";
 import RightSidebar from "../components/RightSidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { hideLoading, showLoading } from "../redux/spinnerSlice";
-import { getUserProfile, markAllNotificationsAsSeen } from "../api/api";
+import {
+  deleteAllSeenNotifications,
+  getUserProfile,
+  markAllNotificationsAsSeen,
+} from "../api/api";
 import { setUser } from "../redux/userSlice";
 import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
@@ -34,6 +38,22 @@ const Notification = () => {
     try {
       dispatch(showLoading());
       const res = await markAllNotificationsAsSeen(user?._id);
+      if (res.success) {
+        dispatch(hideLoading());
+        dispatch(setUser(res.updatedUser));
+        toast.success(res.message);
+      }
+    } catch (err) {
+      dispatch(hideLoading());
+      toast.error(err.response.data.message);
+    }
+  };
+
+  // ********* DELETE ALL SEEN NOTIFICATIONS **********/
+  const handleDeleteAllSeenNotifications = async () => {
+    try {
+      dispatch(showLoading());
+      const res = await deleteAllSeenNotifications(user?._id);
       if (res.success) {
         dispatch(hideLoading());
         dispatch(setUser(res.updatedUser));
@@ -102,7 +122,10 @@ const Notification = () => {
                 </button>
               )}
               {activeTab === "seen" && (
-                <button className="text-sm text-red-500 font-semibold">
+                <button
+                  onClick={handleDeleteAllSeenNotifications}
+                  className="text-sm text-red-500 font-semibold"
+                >
                   Delete all seen notifications
                 </button>
               )}

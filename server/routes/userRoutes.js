@@ -14,6 +14,7 @@ import {
   totalPostOfUser,
   updateUserProfile,
   markAllNotificationsAsSeen,
+  deleteAllSeenNotifications,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -65,6 +66,13 @@ router.post(
   "/mark-all-notifications-as-seen",
   authMiddleware,
   markAllNotificationsAsSeen
+);
+
+//Delete all seen notifications
+router.post(
+  "/delete-all-seen-notifications",
+  authMiddleware,
+  deleteAllSeenNotifications
 );
 
 //Export

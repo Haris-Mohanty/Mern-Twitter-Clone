@@ -346,3 +346,22 @@ export const markAllNotificationsAsSeen = async (id) => {
     throw err;
   }
 };
+
+//******* DELETE ALL SEEN NOTIFICATIONS ***********/
+export const deleteAllSeenNotifications = async (id) => {
+  try {
+    const response = await axios.post(
+      "/user/delete-all-seen-notifications",
+      { id },
+      { withCredentials: true }
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Unexcepted Error Occurred!");
+    }
+  } catch (err) {
+    throw err;
+  }
+};

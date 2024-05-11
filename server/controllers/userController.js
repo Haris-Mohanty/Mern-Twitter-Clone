@@ -567,3 +567,41 @@ export const markAllNotificationsAsSeen = async (req, res) => {
     });
   }
 };
+
+//************ DELETE ALL SEEN NOTIFICATIONS ***************/
+export const deleteAllSeenNotifications = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    // Get user by userId
+    const user = await userModel.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User Not Found!",
+      });
+    }
+
+    // Clear the seenNotifications array
+    user.seenNotifications = [];
+
+    //Update user
+    const updatedUser = await user.save();
+
+    //Password hide
+    updatedUser.password = undefined;
+
+    // Success res
+    return res.status(200).json({
+      success: true,
+      message: "Delete all seen notifications successfully!",
+      updatedUser,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error!",
+      error: err.message,
+    });
+  }
+};
