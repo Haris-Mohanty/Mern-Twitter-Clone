@@ -303,6 +303,9 @@ export const unFollow = async (req, res) => {
       });
     }
 
+    // Find the details of logged in user
+    const loggedInUser = await userModel.findById(loggedInUserId);
+
     //Check if not user is already unfollowed
     const alreadyUnFollowed =
       !userToUnFollow.followers.includes(loggedInUserId);
@@ -321,6 +324,18 @@ export const unFollow = async (req, res) => {
     //Remove the user from the following of logged in user (logged in user)
     await userModel.findByIdAndUpdate(loggedInUserId, {
       $pull: { following: userToUnFollowId },
+    });
+
+    // Push notifications to user
+    const unSeenNotifications = userToUnFollow.unSeenNotifications;
+    unSeenNotifications.push({
+      type: "user-unfollow-request",
+      data: { loggedInUser },
+      message: `${loggedInUser.name} unfollowed you`,
+      onClickPath: "/profile",
+    });
+    await userModel.findByIdAndUpdate(userToUnFollowId, {
+      unSeenNotifications,
     });
 
     //Success
