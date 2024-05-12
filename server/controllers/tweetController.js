@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import tweetModel from "../models/tweetModel.js";
+import userModel from "../models/userModel.js";
 
 //************ CREATE TWEET **********/
 export const createTweet = async (req, res) => {
@@ -13,10 +14,37 @@ export const createTweet = async (req, res) => {
       });
     }
 
+    // Get Followers for send notifications
+    const loggedInUser = await userModel.findById(id);
+    const followersOfLoggedInUser = [...loggedInUser.followers];
+
+    // Tweet Create
     await tweetModel.create({
       description,
       userId: id,
     });
+
+    //Push notifications to all followers
+    for (const followerId of followersOfLoggedInUser) {
+      const followersDetails = await userModel.findById(followerId);
+      if (followersDetails) {
+        // Create  notifications
+        const notifications = {
+          type: "new-tweet",
+          data: { loggedInUser },
+          message: `${loggedInUser.name} posted a new tweet`,
+          onClickPath: "/tweet",
+        };
+
+        // Add the notifications to the follower's unSeenNotifications array
+        followersDetails.unSeenNotifications.push(notifications);
+
+        // Update the user
+        await followersDetails.save();
+      }
+    }
+
+    // Success Res
     return res.status(201).json({
       message: "Tweet Created Successfully!",
       success: true,
@@ -69,7 +97,7 @@ export const likeOrDislike = async (req, res) => {
   try {
     const loggedInUserId = req.body.id;
     const tweetId = req.params.id;
-    const tweet = await tweetModel.findById(tweetId);
+    const tweet = await tweetModel.findById(tweetId).populate("userId");
     if (!tweet) {
       return res.status(404).json({
         message: "Tweet not found",
@@ -77,20 +105,45 @@ export const likeOrDislike = async (req, res) => {
       });
     }
 
+    // Get logged in user details
+    const loggedInUser = await userModel.findById(loggedInUserId);
+
     if (tweet.like.includes(loggedInUserId)) {
-      //dislike
+      //---------- Dislike --------/
       await tweetModel.findByIdAndUpdate(tweetId, {
         $pull: { like: loggedInUserId },
       });
+      const unSeenNotifications = tweet.userId.unSeenNotifications;
+      unSeenNotifications.push({
+        type: "dislike-tweet",
+        data: { loggedInUser },
+        message: `${loggedInUser.name} disliked your tweet`,
+        onClickPath: "/tweet",
+      });
+      await userModel.findByIdAndUpdate(tweet.userId._id, {
+        unSeenNotifications,
+      });
+
       return res.status(200).json({
         message: "User disliked your tweet!",
         success: true,
       });
     } else {
-      //like
+      //---------- like --------/
       await tweetModel.findByIdAndUpdate(tweetId, {
         $push: { like: loggedInUserId },
       });
+      const unSeenNotifications = tweet.userId.unSeenNotifications;
+      unSeenNotifications.push({
+        type: "like-tweet",
+        data: { loggedInUser },
+        message: `${loggedInUser.name} liked your tweet`,
+        onClickPath: "/tweet",
+      });
+      await userModel.findByIdAndUpdate(tweet.userId._id, {
+        unSeenNotifications,
+      });
+
       return res.status(200).json({
         message: "User liked your tweet!",
         success: true,
