@@ -5,7 +5,7 @@ import RightSidebar from "../components/RightSidebar";
 import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/spinnerSlice";
 import { getAllTweets, getOtherUsers } from "../api/api";
-import { setOtherUsers } from "../redux/userSlice";
+import { setOtherUsers, setUser } from "../redux/userSlice";
 import { setAllTweets } from "../redux/tweetSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -36,7 +36,10 @@ const Home = () => {
       }
     } catch (err) {
       dispatch(hideLoading());
-      console.log(err);
+      //When user is not authenticated
+      if (err.response.status === 401) {
+        dispatch(setUser(null));
+      }
     }
   };
 

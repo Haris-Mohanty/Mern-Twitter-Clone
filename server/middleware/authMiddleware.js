@@ -5,7 +5,7 @@ export const authMiddleware = async (req, res, next) => {
     const { token } = req.cookies;
     if (!token) {
       return res.status(401).json({
-        message: "User not authenticated!",
+        message: "User not authenticated, Please Login!",
         success: false,
       });
     }

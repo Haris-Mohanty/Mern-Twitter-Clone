@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Notification = () => {
-  const { user } = useSelector((state) => state.user);
+  const { user, otherUsers } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("unSeen");
 
@@ -157,7 +157,7 @@ const Notification = () => {
             </div>
           </div>
         </div>
-        <RightSidebar />
+        <RightSidebar otherUser={otherUsers} />
       </div>
     </>
   );

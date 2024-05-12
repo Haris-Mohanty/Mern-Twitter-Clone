@@ -9,6 +9,7 @@ import { hideLoading, showLoading } from "../redux/spinnerSlice";
 import { bookmarkTweet, deleteTweet, likeAndDislike } from "../api/api";
 import toast from "react-hot-toast";
 import { setRefresh } from "../redux/tweetSlice";
+import moment from "moment";
 
 const Tweet = ({ tweet }) => {
   const { user } = useSelector((state) => state.user);
@@ -63,6 +64,9 @@ const Tweet = ({ tweet }) => {
     (bookmark) => bookmark === user?._id
   );
 
+  // Format date using moment.js
+  const formattedDate = moment(tweet?.createdAt).fromNow();
+
   return (
     <>
       <div className="border-b border-gray-200">
@@ -75,9 +79,9 @@ const Tweet = ({ tweet }) => {
             />
             <div className="ml-2 w-full">
               <div className="flex items-center">
-                <h1 className="font-bold">{tweet?.userId?.name} </h1>
+                <h1 className="font-bold pr-1">{tweet?.userId?.name}</h1>
                 <p className="text-gray-500 text-sm">
-                  @{tweet?.userId?.username} .1m
+                  @{tweet?.userId?.username} · {formattedDate}
                 </p>
               </div>
               <div>

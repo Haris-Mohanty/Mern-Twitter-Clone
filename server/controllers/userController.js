@@ -540,6 +540,12 @@ export const markAllNotificationsAsSeen = async (req, res) => {
 
     //Get un seen notifications
     const unSeenNotifications = user.unSeenNotifications;
+    if (unSeenNotifications.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No notifications to mark as seen!",
+      });
+    }
 
     //Appen un seen notifications array to seen notifications array
     user.seenNotifications.push(...unSeenNotifications);
@@ -579,6 +585,14 @@ export const deleteAllSeenNotifications = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: "User Not Found!",
+      });
+    }
+
+    // When seen notifications is not available
+    if (user.seenNotifications.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No seen notifications to delete!",
       });
     }
 

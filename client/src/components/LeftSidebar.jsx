@@ -88,7 +88,7 @@ const LeftSidebar = () => {
         <div className="my-4">
           <Link
             to={"/"}
-            className={`flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer ${
+            className={`flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full w-[80%] hover:cursor-pointer ${
               activeTab === "home" ? "bg-gray-200" : ""
             }`}
           >
@@ -97,7 +97,7 @@ const LeftSidebar = () => {
           </Link>
           <Link
             to={"/explore"}
-            className={`flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer ${
+            className={`flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full w-[80%] hover:cursor-pointer ${
               activeTab === "explore" ? "bg-gray-200" : ""
             }`}
           >
@@ -106,7 +106,7 @@ const LeftSidebar = () => {
           </Link>
           <Link
             to={"/notifications"}
-            className={`flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer ${
+            className={`flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full w-[80%] hover:cursor-pointer ${
               activeTab === "notifications" ? "bg-gray-200" : ""
             }`}
           >
@@ -122,7 +122,7 @@ const LeftSidebar = () => {
           </Link>
           <Link
             to={`/profile/${user?._id}`}
-            className={`flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer ${
+            className={`flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full w-[80%] hover:cursor-pointer ${
               activeTab === "profile" ? "bg-gray-200" : ""
             }`}
           >
@@ -131,7 +131,7 @@ const LeftSidebar = () => {
           </Link>
           <Link
             to={"/bookmarks"}
-            className={`flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer ${
+            className={`flex items-center my-2 px-4 py-2 w-[80%] hover:bg-gray-200 rounded-full hover:cursor-pointer ${
               activeTab === "bookmarks" ? "bg-gray-200" : ""
             }`}
           >
@@ -140,12 +140,12 @@ const LeftSidebar = () => {
           </Link>
           <div
             onClick={logoutHandler}
-            className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer"
+            className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer w-[80%]"
           >
             <CiLogout size={"24px"} />
             <h1 className="font-semibold text-lg ml-2">Logout</h1>
           </div>
-          <button className="px-4 py-2 border-none text-md bg-[#109BF0] w-[70%] rounded-full text-white font-bold">
+          <button className="px-4 py-2 border-none text-md bg-[#109BF0] w-[80%] rounded-full text-white font-bold">
             Post
           </button>
         </div>
