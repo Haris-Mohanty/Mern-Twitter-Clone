@@ -163,7 +163,9 @@ export const bookmark = async (req, res) => {
   try {
     const loggedInUserId = req.body.id;
     const tweetId = req.params.id;
-    const tweet = await tweetModel.findById(tweetId);
+
+    // Get tweet details
+    const tweet = await tweetModel.findById(tweetId).populate("userId");
     if (!tweet) {
       return res.status(404).json({
         message: "Tweet not found",
@@ -171,8 +173,11 @@ export const bookmark = async (req, res) => {
       });
     }
 
+    // Get logged in user details
+    const loggedInUser = await userModel.findById(loggedInUserId);
+
     if (tweet.bookmarks.includes(loggedInUserId)) {
-      // Remove from bookmark
+      //------------ Remove from bookmark -------------//
       await tweetModel.findByIdAndUpdate(tweetId, {
         $pull: { bookmarks: loggedInUserId },
       });
@@ -180,10 +185,23 @@ export const bookmark = async (req, res) => {
         message: "Removed from bookmark successfully!",
       });
     } else {
-      // add to bookmark
+      // --------- add to bookmark ----------//
       await tweetModel.findByIdAndUpdate(tweetId, {
         $push: { bookmarks: loggedInUserId },
       });
+
+      //--------- push notifications --------//
+      const unSeenNotifications = tweet.userId.unSeenNotifications;
+      unSeenNotifications.push({
+        type: "dislike-tweet",
+        data: { loggedInUser },
+        message: `${loggedInUser.name} bookmarked your tweet`,
+        onClickPath: "/bookmark",
+      });
+      await userModel.findByIdAndUpdate(tweet.userId._id, {
+        unSeenNotifications,
+      });
+
       return res.status(200).json({
         message: "Add to bookmark successfully!",
       });
