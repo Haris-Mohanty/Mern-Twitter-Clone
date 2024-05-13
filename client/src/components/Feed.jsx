@@ -9,7 +9,7 @@ const Feed = () => {
     <>
       <div className="w-[50%] border border-gray-200">
         <CreatePost />
-        {tweets.length === 0 ? (
+        {tweets && tweets.length === 0 ? (
           <div className="text-center py-8">
             <h2 className="text-gray-500 text-lg font-semibold">
               No tweets found.

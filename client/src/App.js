@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import Spinner from "./components/Spinner";
 import Bookmarks from "./Pages/Bookmarks";
 import Notification from "./Pages/Notification";
+import TweetDetails from "./Pages/TweetDetails";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Spinner />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/tweet/:id" element={<TweetDetails />} />
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/bookmarks" element={<Bookmarks />} />

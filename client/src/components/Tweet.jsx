@@ -10,6 +10,7 @@ import { bookmarkTweet, deleteTweet, likeAndDislike } from "../api/api";
 import toast from "react-hot-toast";
 import { setRefresh } from "../redux/tweetSlice";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 const Tweet = ({ tweet }) => {
   const { user } = useSelector((state) => state.user);
@@ -70,7 +71,7 @@ const Tweet = ({ tweet }) => {
   return (
     <>
       <div className="border-b border-gray-200">
-        <div>
+        <Link to={`/tweet/${tweet?._id}`} className="block">
           <div className="flex p-4">
             <Avatar
               src="https://static.dezeen.com/uploads/2023/07/x-logo-twitter-elon-musk_dezeen_2364_col_0.jpg"
@@ -137,7 +138,7 @@ const Tweet = ({ tweet }) => {
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
     </>
   );
