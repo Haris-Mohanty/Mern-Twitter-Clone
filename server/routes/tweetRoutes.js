@@ -28,7 +28,7 @@ router.put("/bookmark/:id", authMiddleware, bookmark);
 router.get("/show-bookmarks-of-user/:id", authMiddleware, showBookmarksOfUser);
 
 // Get tweet details
-router.get("/get-tweet-details", authMiddleware, getTweetDetails);
+router.get(`/get-tweet-details/:id`, authMiddleware, getTweetDetails);
 
 //Export
 export default router;
