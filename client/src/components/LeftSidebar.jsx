@@ -113,7 +113,7 @@ const LeftSidebar = () => {
             <div className="relative">
               <IoNotificationsOutline size={"24px"} />
               {unseenNotificationsCount > 0 && (
-                <span className="absolute -top-2 -right-1 bg-red-500 text-white rounded-full px-1 py-0 text-xs">
+                <span className="absolute -top-2 -right-1 bg-blue-500 text-white rounded-full px-1 py-0 text-xs">
                   {unseenNotificationsCount}
                 </span>
               )}
