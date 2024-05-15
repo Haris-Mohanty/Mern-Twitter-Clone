@@ -16,11 +16,18 @@ connectDb();
 
 //Rest Obj
 const app = express();
- 
+
 //Middleware
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: function (origin, callback) {
+      // Check if the origin is allowed
+      if (!origin || origin === "https://cheery-fenglisu-1853d4.netlify.app") {
+        callback(null, true); // Allow the request
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
