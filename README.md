@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a Twitter clone application built using Node.js, Express.js, and MongoDB for the backend, and React.js for the frontend. The application allows users to register, login, post tweets, and view tweets from other users.
+This is a Twitter clone application built using Node.js, Express.js, and MongoDB for the backend, and React.js for the frontend. The application allows users to register, login, post tweets, and view tweets from other users. [X-Clone](https://x-clones.netlify.app/)
 
 ## Features
 
@@ -21,7 +21,6 @@ This is a Twitter clone application built using Node.js, Express.js, and MongoDB
 - **Frontend:** React.js, Axios
 - **Middleware:** JWT, bcrypt, cookie-parser, cors, morgan
 - **Deployment:** Netlify (Frontend), onrender (Backend) hosting service
-
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
