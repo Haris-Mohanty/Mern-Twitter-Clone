@@ -35,15 +35,18 @@ Before you begin, ensure you have met the following requirements:
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/your-username/mern-twitter-clone.git
-   cd mern-twitter-clone
+   git clone https://github.com/your-username/Mern-Twitter-Clone.git
+   cd Mern-Twitter-Clone
    
-2. Install backend dependencies
+2. Navigate to the server directory
    ```bash
    cd server
+   
+3. Install backend dependencies
+   ```bash
    npm install
 
-3. Create a .env file in the server directory and add the following environment variables
+4. Create a .env file in the server directory and add the following environment variables
    ```bash
    PORT=8080
    MONGO_URL=your_mongodb_connection_string
@@ -52,7 +55,7 @@ Before you begin, ensure you have met the following requirements:
    DEV_MODE=development
    FRONTEND_URL=http://localhost:3000
 
-4. Start the backend server
+5. Start the backend server
    ```bash
    nodemon || node app.js
 
@@ -61,7 +64,7 @@ Before you begin, ensure you have met the following requirements:
 1. Navigate to the client directory
 
    ```bash
-   cd client
+   cd ../client
 2. Install frontend dependencies
 
    ```bash
