@@ -29,13 +29,13 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 //Logout
-router.get("/logout", logoutUser);
+router.get("/logout", authMiddleware, logoutUser);
 
 //Get Profile details
-router.get("/get-profile/:id", getProfileDetails);
+router.get("/get-profile/:id", authMiddleware, getProfileDetails);
 
 //Get Other users
-router.get("/other-users/:id", getOtherUsers);
+router.get("/other-users/:id", authMiddleware, getOtherUsers);
 
 // Follow
 router.post("/follow/:id", authMiddleware, followUser);
@@ -44,7 +44,7 @@ router.post("/follow/:id", authMiddleware, followUser);
 router.post("/unfollow/:id", authMiddleware, unFollow);
 
 //Get tweets (loggedIn user + Following user)
-router.get("/get-tweets/:id", getAllTweets);
+router.get("/get-tweets/:id", authMiddleware, getAllTweets);
 
 //Get following tweets
 router.get("/following-tweets/:id", authMiddleware, getFollowingTweets);

@@ -141,7 +141,11 @@ export const loginUser = async (req, res) => {
     //Success
     return res
       .status(201)
-      .cookie("token", token, { expiresIn: "1d", httpOnly: true })
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // Ensure secure flag is set in production
+        sameSite: "None", // Required for cross-site cookie
+      })
       .json({
         message: "Login Success!",
         success: true,

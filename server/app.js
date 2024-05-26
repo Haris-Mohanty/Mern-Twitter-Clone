@@ -20,24 +20,12 @@ const app = express();
 //Middleware
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Check if the origin is allowed
-      if (!origin || origin === "https://cheery-fenglisu-1853d4.netlify.app") {
-        callback(null, true); // Allow the request
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
+    origin: process.env.FRONTEND_URL,
+    credentials: true, // Enable credentials
   })
 );
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: false,
-  })
-);
 app.use(cookieParser());
 
 //Middleware routes

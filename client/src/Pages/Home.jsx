@@ -37,10 +37,10 @@ const Home = () => {
     } catch (err) {
       dispatch(hideLoading());
       //When user is not authenticated
-      // if (err.response.status === 401) {
-      //   dispatch(setUser(null));
-      // }
-      console.log(err);
+      if (err.response.status === 401) {
+        dispatch(setUser(null));
+        navigate("/login");
+      }
     }
   };
 
